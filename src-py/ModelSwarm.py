@@ -7,167 +7,71 @@ import Percentile
 import Stdev
 
 class ModelSwarm:
-    def __init__(self, outFile, nInds, aVal, bVal, cVal, xMin, xMax, selFreq, selVal, mutRate, debug):
+    def __init__(self, outFile, nInds, nWords, nSyll, initVar, mutRate, debug):
         # the environment
         self.nInds = nInds
+        self.nWords = nWords
+        self.nSyll = nSyll
         self.indList = []
 
         self.debug = debug
 
         self.indCounter = 0
 
-        self.val_a = aVal
-        self.val_b = bVal  
-        self.val_c = cVal
-
-        self.val_x_min = xMin
-        self.val_x_max = xMax
-
-        self.selectionFreq = selFreq    #frequenza con cui avviene la selezione sul totale dei cicli
-        self.selectionVal  = selVal #quanti individui vengono selezionati per l'eliminazione
-        self.mutationRate  = mutRate
+        self.initVar = initVar #initial variability of words in dictionar
+        self.mutRate = mutRate #random words (syllables) muutation rate
 
         self.outFile = outFile #text dump
 
    # objects
-    def buildObjects(self):        
+    def buildObjects(self):
         for i in range(self.nInds):
             self.indList.append(self.generateInd(i))
         
         self.indCounter = i
         
-        print "GOODSTAND: Model built with ", self.indCounter + 1, " individuals"
+        print "Model built with ", self.indCounter + 1, " individuals"
 
     # actions
     def buildActions(self):
 
-        self.indStep = ActionGroup.ActionGroup ("match")
-        self.indPlay = ActionGroup.ActionGroup ("play")
-        self.indAfter = ActionGroup.ActionGroup ("after")
-        self.indSelection = ActionGroup.ActionGroup ("select")
+        self.indMatch = ActionGroup.ActionGroup ("match")
+        self.indComm  = ActionGroup.ActionGroup ("communicate")
+        self.indInflu = ActionGroup.ActionGroup ("influence")
+        self.indPlay = ActionGroup.ActionGroup ("mutate")
 
-        def do1(self):
-            random.shuffle(self.indList)
-            for aInd in self.indList:
-                aInd.step()
+        #def do1(self):
+        #    random.shuffle(self.indList)
+        #    for aInd in self.indList:
+        #        aInd.step()
 
-        self.indStep.do = do1 # do is a variable linking a method
+        #self.indStep.do = do1 # do is a variable linking a method
 
-        def play(self):
+        def match(self):
             for aInd in self.indList:
                 aInd.play()
 
         self.indPlay.do = play
 
-        def aftermath(self):
+        def communicate(self):
             for aInd in self.indList:
                 aInd.after()
             
-        self.indAfter.do = aftermath
+        self.indCommunicate.do = communicate
 
-        def selection(self):
-            cumPayoffList = []
-            betaList = []
-            piList = []
+        def influence(self):
+            True            
+            ###
+        
+        self.indInfluence.do = influence
 
-            for aInd in self.indList:
-                cumPayoffList.append(aInd.cumPayoff)
-                betaList.append(aInd.beta)
-                piList.append(aInd.pi)
-
-            cumPayoffNormList = []
-            minPayoff = min(cumPayoffList)
-
-            cumPayoffNormListZeroOne = []
-
-            upperBoundPayoffList = []
-            upperBoundVal = 0
-
-            for n in range(len(cumPayoffList)):
-                val = cumPayoffList[n] - minPayoff
-                cumPayoffNormList.append(val) #normalized to positive
-
-            sumNormPayoff = sum(cumPayoffNormList) #+ .0001 #avoid division by zero
-
-            
-            #TACUN
-            #if (sumNormPayoff == 0):sumNormPayoff = 1
-            if (sumNormPayoff == 0):
-                if (self.debug): print "ALTERNATIVE STRATEGY"
-            #alternative strategy: roulette wheel simplified
-                for i in range(self.nInds): 
-                    #mutation
-                    if (random.uniform(0, 1) < self.mutationRate):
-                        self.mutate(self.indList[i])
-                        print "Mutating ind. #", self.indList[i].number
-            else:        
-                if (self.debug): print "STANDARD STRATEGY"
-                for n in range(len(cumPayoffNormList)):
-                    val = float(cumPayoffNormList[n]) / float(sumNormPayoff)
-                    cumPayoffNormListZeroOne.append(val) #normalized to [0;1]
-                    #print "CUMPAYOFFNORMLIST=",cumPayoffNormList[n], cumPayoffNormList
-                    #print "n=", n, "cumpayoffnorm=", val, "sumNormPayoff=", sumNormPayoff
-                    
-                    upperBoundVal += val
-                    upperBoundPayoffList.append(upperBoundVal)
-
-            cumPayoffList.sort()
-
-            if (self.debug): 
-                print "PROVA percentile", cumPayoffList, Percentile.percentile(cumPayoffList, self.selectionVal)
-                print "                ", betaList
-                print "                ", piList
-            
-            cutoff = Percentile.percentile(cumPayoffList, self.selectionVal)
-
-            totCumC = 0
-            totCumD = 0
-            totCumN = 0
-
-            if(self.debug): refreshed = 0
-
-            for aInd in self.indList:
-            #easy strategy: below cutoff threshold, generate new random individuals
-#                if (aInd.cumPayoff < cutoff): self.refreshInd(aInd)
-            #alternative strategy: roulette wheel
-                if (aInd.cumPayoff < cutoff): 
-                    if(self.debug): refreshed += 1
-                    self.cloneRWheel(aInd, upperBoundPayoffList)
-                    #mutation
-                    if (random.uniform(0, 1) < self.mutationRate):
-                        self.mutate(aInd)
-                        print "Mutating ind. #", aInd.number
-                        
-                totCumC += aInd.cumC
-                totCumD += aInd.cumD
-                totCumN += aInd.cumN
-
-                aInd.cumPayoff = 0
-                aInd.cumC = 0
-                aInd.cumD = 0
-                aInd.cumN = 0
-
-            if(self.debug): print "refreshed = ", refreshed
-            print "Variability in population (beta, pi): ", Stdev.stdev(betaList), Stdev.stdev(piList), "min|max (beta, pi)",\
-                min(betaList), max(betaList), min(piList), max(piList)
-
-#            print "TOTALI [C|D|N] - [beta|pi]", float(totCumC)*100/self.nInds, float(totCumD)*100/self.nInds, float(totCumN)*100/self.nInds, " - ", sum(betaList)/len(betaList), sum(piList)/len(piList)
-            totCumALL = totCumC+totCumD+totCumN
-            
-            #TIDY OUTPUT
-            outLine = "CDN|bbminp " + str( float(totCumC)/float(totCumALL) ) + ";" + str( float(totCumD)/float(totCumALL) ) + ";" + str( float(totCumN)/float(totCumALL) ) + ";" + str( sum(betaList)/len(betaList) ) + ";" + str( min(betaList)  ) + ";" + str( sum(piList)/len(piList) ) + "\n"
-
-            print outLine
-            self.outFile.write(outLine)
-
-            #print "CDN|bp[median] ", float(totCumC)/float(totCumALL), float(totCumD)/float(totCumALL), float(totCumN)/float(totCumALL), \
-                #Percentile.percentile(betaList, .5), Percentile.percentile(piList, .5)
-
-        self.indSelection.do = selection
-
+        def mutate(self):
+            True            
+            ###
+        self.indMutate.do = mutate
     
     
-        self.actionGroupList = ["match", "play", "after"]
+        self.actionGroupList = ["match", "communicate", "influence", "mutate"]
         print "-> Actions built"
         
     # actions
@@ -187,21 +91,6 @@ class ModelSwarm:
         pi   = random.uniform(0, 1)
         aInd.beta = beta
         aInd.pi   = pi
-        return self
-
-    def cloneRWheel(self, aInd, ubList):
-        #pick ind
-        ind = -1
-        wheelTurn = random.uniform(0, 1)
-
-        #print "CRW: ubList=", ubList
-        for n in range(len(ubList)):
-            if wheelTurn < ubList[n]:
-                ind = n
-                break
-
-        aInd.beta = self.indList[n].beta
-        aInd.pi   = self.indList[n].pi
         return self
 
     def mutate(self, aInd):
@@ -270,6 +159,8 @@ class ModelSwarm:
     def getIndList(self):
         return self.indList
                 
+                
+    #RUNNING ENGINE / SCHEDULER
     def run(self, nCycles):
         for n in range(nCycles):
             
@@ -277,9 +168,11 @@ class ModelSwarm:
             for s in self.actionGroupList:                
                 if s == "match":
                     self.step(n)
-                if s == "play":
+                if s == "communicate":
                     self.play(n)
-                if s == "after":
+                if s == "influence":
+                    self.aftermath(n)
+                if s == "mutate":
                     self.aftermath(n)
 
             if ((n != 0) and (n % self.selectionFreq == 0)):
