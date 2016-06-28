@@ -16,21 +16,13 @@ class ModelSwarm:
 
         self.indCounter = 0
 
-#        self.val_a =   1
-#        self.val_b =  -2
-#        self.val_c =  -.5
         self.val_a = aVal
         self.val_b = bVal  
         self.val_c = cVal
 
-#        self.val_x_min = 0
-#        self.val_x_max = .9
         self.val_x_min = xMin
         self.val_x_max = xMax
 
-#        self.selectionFreq = 100    #frequenza con cui avviene la selezione sul totale dei cicli
-#        self.selectionVal  =   .10 #quanti individui vengono selezionati per l'eliminazione
-#        self.mutationRate  =   .01
         self.selectionFreq = selFreq    #frequenza con cui avviene la selezione sul totale dei cicli
         self.selectionVal  = selVal #quanti individui vengono selezionati per l'eliminazione
         self.mutationRate  = mutRate
