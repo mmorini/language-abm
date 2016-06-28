@@ -1,0 +1,68 @@
+#Trust Me
+import ModelSwarm
+import ValidatedInput
+from datetime import datetime, date, time
+import Email
+
+nInds = ValidatedInput.valInputInt("How many individuals? ")
+
+if (nInds % 2 != 0):
+    nInds += 1
+    print "Only an even number of individuals, please. Rounding up to ", nInds
+
+nCycles = ValidatedInput.valInputInt("How many cycles? ")
+
+aVal = ValidatedInput.valInputFloat("A equals? ")
+bVal = ValidatedInput.valInputFloat("B equals? ")
+cVal = ValidatedInput.valInputFloat("C equals? ")
+
+xMin = ValidatedInput.valInputFloat("x min equals? ")
+xMax = ValidatedInput.valInputFloat("x max equals? ")
+
+selFreq = ValidatedInput.valInputFloat("Selection frequency (every n cycles) equals [hint: 100]? ")
+selVal  = ValidatedInput.valInputFloat("Selection percentage (% of subject) equals [hint: 0.1]? ")
+mutRate = ValidatedInput.valInputFloat("Mutation rate equals [hint: [0.01]? ")
+
+#output file
+dt = datetime.now()
+fileName = dt.strftime("%Y%m%d_%H%M%S") + "out.csv"
+
+outFile = open(fileName, "a")
+outFile.write("*** " + fileName + "\n") #header
+outFile.write("*** Inds|Cycles|A|B|C|xMin|xMax|selFreq|selPerc|mutRate \n") #header
+outFile.write("*** " + str(nInds) + " | " + str(nCycles) + " | " + str(aVal) + " | "+ str(bVal) + " | "+ str(cVal) + " | "+ str(xMin) + " | "+ str(xMax) + " | "+ str(selFreq) + " | "+ str(selVal) + " | "+ str(mutRate) + "\n") #header
+
+print "Dumping onto file: ", fileName
+
+modelSwarm = ModelSwarm.ModelSwarm(outFile, nInds, aVal, bVal, cVal, xMin, xMax, selFreq, selVal, mutRate, False)
+        
+# create objects
+modelSwarm.buildObjects()
+
+# create actions
+modelSwarm.buildActions()
+
+# run
+modelSwarm.run(nCycles)
+
+#finishing
+#modelSwarmStep.destroy()
+
+print "Back to basics."
+
+outFile.close()
+print "OUTPUT file closed."
+
+outFile = open(fileName, "r")
+print "OUTPUT file reopened for reading."
+
+
+Email.emailResults(outFile)
+print "Email sent."
+
+outFile.close()
+print "OUTPUT file closed again."
+
+
+    
+
