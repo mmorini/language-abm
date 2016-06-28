@@ -1,0 +1,13 @@
+
+;; speakers
+;  exchange phrases to do words cross-over
+
+
+;;
+; move people in space
+;
+;  -> use drifted random walks
+;    - people 
+to wander-speakers
+  
+end
