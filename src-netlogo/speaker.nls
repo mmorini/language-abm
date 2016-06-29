@@ -16,11 +16,61 @@ to wander-speakers
 end
 
 
+;;
+; Conversations :
+;   - find pairs of encountering speakers
+;   - foreach pair, make conversation
 to make-conversations
+  ask speakers [set speaking? false]
   
-  ; TODO
+  ask speakers [
+     let potential-interlocutors (speakers with [not speaking?]) in-radius speaking-radius
+     if count potential-interlocutors > 0 [
+       set speaking? true
+       let interlocutor one-of potential-interlocutors
+       ask interlocutor [set speaking? true]
+       ; "domination game" :
+       ;   -draw semantic phrase ; grammar assumed similar
+       ;   - check on comprehensibility is done at sentence level
+       ;   - choose a word, transfer it form dominant to dominated
+       ;  
+       ;  |P(p1 dominates p2) = |d1-d2|
+       let dominating? true
+       ifelse influence-score > [influence-score] of interlocutor [
+         if random-float 1 > (influence-score - [influence-score] of interlocutor) [set dominating? false]
+       ][
+         if random-float 1 < ([influence-score] of interlocutor - influence-score) [set dominating? false]
+       ]
+       
+       ; draw sentence
+       let sentence-length (random (sentence-max-length - sentence-min-length)) + sentence-min-length
+       let sem-sentence [] repeat sentence-length [set sem-sentence lput one-of semantics sem-sentence]
+       
+       ;output-print (word "conversation : " sem-sentence)
+       
+       ; construct effective sentence ? no need, just get word that will change
+       let cross-index random sentence-length
+       ifelse dominating? [
+         let new one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+         let old one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+         ask interlocutor [update-vocabulary old new]
+       ][
+         let old one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+         let new one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+         update-vocabulary old new
+       ]
+       
+     ]
+  ] 
   
 end
+
+
+to update-vocabulary [old new]
+  if old != new [output-print (word "modif : " [word-text] of old " - " [word-text] of new)]
+  set vocabulary replace-item (position old vocabulary) vocabulary new
+end
+
 
 
 

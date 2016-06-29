@@ -29,6 +29,10 @@ to setup-globals
   ; word length in syllables
   set word-size 3
   
+  set sentence-min-length 3
+  set sentence-max-length 5
+  
+  set speaking-radius 1
   
 end
 
@@ -88,5 +92,7 @@ to setup-speakers
   create-speakers population-size [
      new-speaker
   ]
+  
+  deviate-vocabularies
   
 end

@@ -45,6 +45,13 @@ globals [
   
   ; size of words in syllables
   word-size
+ 
+  ; sentences
+  sentence-min-length
+  sentence-max-length
+ 
+  ; interaction radius
+  speaking-radius
   
 ]
 
@@ -73,8 +80,10 @@ speakers-own [
   ; vocabulary as an list of spoken words
   vocabulary
   
+  ; is the speaker currently speaking
+  speaking?
+  
 ]
-
 
 
 
@@ -171,8 +180,8 @@ SLIDER
 #-random-mutations
 0
 100
-2
-1
+0.02
+0.01
 1
 NIL
 HORIZONTAL
@@ -212,8 +221,8 @@ NIL
 PLOT
 1081
 23
-1383
-246
+1360
+201
 diversity
 NIL
 NIL
@@ -236,24 +245,24 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.05
+0.48
 0.01
 1
 NIL
 HORIZONTAL
 
 OUTPUT
-1084
-344
-1404
-669
+1078
+425
+1398
+750
 10
 
 BUTTON
-1085
-307
-1174
-340
+1079
+388
+1168
+421
 show voc
 show-vocabulary
 NIL
@@ -265,6 +274,24 @@ NIL
 NIL
 NIL
 1
+
+PLOT
+1081
+203
+1359
+373
+words
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot count spoken-words"
 
 @#$#@#$#@
 ## WHAT IS IT?

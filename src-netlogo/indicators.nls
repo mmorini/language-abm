@@ -13,6 +13,8 @@ to-report language-diversity
   
   if semantic-mapping = 0 [report 0]
   
+  ; TODO : forgotten words are taken into account -> kill them ! 
+  
   foreach table:keys semantic-mapping [
      set res res + word-distance one-of spoken-words with [word-text = ?] one-of spoken-words with [word-text = table:get semantic-mapping ?]
   ]
