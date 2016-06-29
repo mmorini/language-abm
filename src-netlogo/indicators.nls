@@ -1,2 +1,42 @@
 
 ;; indicators
+
+; ratio of sucessful communication
+
+; language diversity
+
+
+to-report language-diversity
+  
+  ;; first attempt : \sum_sem d(w,sem)
+  let res 0
+  
+  if semantic-mapping = 0 [report 0]
+  
+  foreach table:keys semantic-mapping [
+     set res res + word-distance one-of spoken-words with [word-text = ?] one-of spoken-words with [word-text = table:get semantic-mapping ?]
+  ]
+  
+  report res
+end
+
+
+; proper print
+to show-vocabulary
+  let semvals table:make
+  
+  foreach table:keys semantic-mapping [
+     ifelse table:has-key? semvals ? [
+         table:put semvals table:get semantic-mapping ? (lput ? (table:get semvals (table:get semantic-mapping ?)))
+       ][
+         table:put semvals table:get semantic-mapping ? (list ?)
+     ]
+  ]
+  
+  foreach table:keys semvals [
+    let p (word ? " <- ")
+    foreach table:get semvals ? [set p (word p " - " ?)]
+    output-print p
+  ]
+  
+end

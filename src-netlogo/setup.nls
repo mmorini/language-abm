@@ -4,5 +4,89 @@
 
 to setup
   
+  ca
+  
+  ; globals
+  setup-globals
+  
+  ; global language
+  setup-language
+  
+  ; setup geography
+  setup-geography
+  
+  ; speakers
+  setup-speakers
+  
+  reset-ticks
+  
+end
+
+
+
+to setup-globals
+  
+  ; word length in syllables
+  set word-size 3
+  
+  
+end
+
+
+;;
+;  setup semantics and initial words
+to setup-language
+  
+  if lang-setup-type = "random" [
+    
+    let #-syllables 50 set syllables []
+    ; construct syllables
+    let v (list "a" "e" "i" "o" "u") let c (list "s" "b" "p" "g" "r")
+    while [length syllables < #-syllables] [
+      ; draw at random a consomn and a voyel
+       set syllables lput (word one-of c one-of v) syllables
+    ]
+    
+    ; construct semantics and corresponding words
+    set semantics []
+    repeat semantic-size [
+      set semantics lput new-random-spoken-word semantics 
+    ]
+    
+    ; random distance matrix between syllables
+    set syllable-distance-matrix matrix:make-constant length syllables length syllables 0
+    let i 0 let j 1 repeat (length syllables - 1) [set j i + 1 repeat (length syllables - i - 1) [matrix:set syllable-distance-matrix i j (random-float 1) set j j + 1] set i i + 1] 
+    
+    ; empty mapping
+    set semantic-mapping table:make
+    
+  ]
+  
+  ; else : geography, real etc.
+  
+  
+  
+  
+  
+  
+  
+end
+
+
+
+to setup-geography
+  
+  if geo-setup-type = "uniform" [] ; do nothing
+  
+end
+
+
+;;
+; position and particular language
+to setup-speakers
+  
+  create-speakers population-size [
+     new-speaker
+  ]
   
 end

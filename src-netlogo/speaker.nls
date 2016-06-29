@@ -7,7 +7,35 @@
 ; move people in space
 ;
 ;  -> use drifted random walks
-;    - people 
+;    - people have fixed home ; commute randomly according to a gravity law (density of houses)
+;    - 
 to wander-speakers
+  ask speakers [
+    lt random-float 60 - 30 fd 1 
+  ]
+end
+
+
+to make-conversations
+  
+  ; TODO
+  
+end
+
+
+
+
+
+to new-speaker
+  
+  ; random influence score
+  set influence-score random-float 1
+  
+  set shape "person" set color red set size 1
+  
+  ;
+  setxy random-xcor random-ycor
+  
+  set vocabulary initial-vocabulary
   
 end

@@ -1,0 +1,101 @@
+
+;; vocabulary
+;  global lang procedure and spoken-words procedure
+
+
+
+
+to mutate-vocabulary
+  
+  ; random mutation
+  repeat #-random-mutations [
+     ask one-of speakers [
+       ; Q : mutation occur among all speakers on only one ?
+        let to-mutate one-of vocabulary
+        set vocabulary remove to-mutate vocabulary
+        let mutated mutated-word to-mutate
+        set vocabulary lput mutated vocabulary
+        update-semantic-mapping mutated  
+     ]
+  ]
+  
+end
+
+
+
+
+to-report new-random-spoken-word
+  let res nobody
+  create-spoken-words 1 [
+    set hidden? true
+    set word-syllables (list one-of syllables one-of syllables one-of syllables)
+    set word-text "" foreach word-syllables [set word-text (word ? word-text)]
+    set semantic self
+    set res self
+  ]
+  report res
+end
+
+
+;;
+; random initial voc
+to-report initial-vocabulary
+  let res []
+  ; for each semantics, slight chance to deviate from base word
+  foreach semantics [
+    let wdev deviated-word ?
+    set res lput wdev res
+    update-semantic-mapping wdev
+  ]
+  
+  ;report to-agentset res
+  
+  report res
+end
+
+
+;;
+; deviates slightly a word
+;
+;  draw a distance randomly (gaussian) ; find syllables mutation that can satisfy it
+to-report deviated-word [w]
+  
+  ;TODO
+  report w
+end
+
+;;
+;  mutate a word
+to-report mutated-word [w]
+  
+  ; TODO
+  
+  report w
+  
+end
+
+
+;;
+; distance between two syllables
+to-report syllable-distance [s1 s2]
+  let i position s1 syllables let j position s2 syllables
+  report matrix:get syllable-distance-matrix i j
+end
+
+;;
+; distance between two words (spoken-words)
+to-report word-distance [w1 w2]
+  let res 0 let i 0 let sl1 [word-syllables] of w1 let sl2 [word-syllables] of w2
+  foreach sl1 [set res res + syllable-distance ? item i sl2 set i i + 1]
+  report res
+end
+
+
+to update-semantic-mapping [w]
+  table:put semantic-mapping [word-text] of w [word-text] of [semantic] of w
+end
+
+
+
+
+

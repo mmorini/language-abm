@@ -1,5 +1,5 @@
 
-extensions[]
+extensions[matrix table]
 
 
 __includes[
@@ -10,7 +10,15 @@ __includes[
   
  "speaker.nls"
   
-  "indicators.nls"
+ "vocabulary.nls"
+  
+ "indicators.nls"
+  
+  
+  ;;;;;;;;;;
+  ;; utils
+  
+  "utils/List.nls"
   
   
 ]
@@ -22,11 +30,21 @@ __includes[
 globals [
   
   ;; list of semantics
-  ; semantic mapping done with table : word -> index
+  ; semantic content with list of canonic words (that correspond to the actual semantic)
   semantics
   
+  ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
+  semantic-mapping
   
-    
+  ;; list of syllables
+  syllables
+  
+  ; distance matrix between syllables
+  ;  M[syl_id1,syl_id2] = distance
+  syllable-distance-matrix
+  
+  ; size of words in syllables
+  word-size
   
 ]
 
@@ -36,16 +54,26 @@ breed[spoken-words spoken-word]
 
 spoken-words-own [
   ; list of syllabes
-  syllabes 
+  word-syllables 
+
+  ; actual text (for display)
+  word-text
+  
+  ; semantic
+  semantic
 ]
 
 
 breed [speakers speaker]
 
 speakers-own [
-   
+  ; how the speaker will influence the other
+  influence-score
+  
+  ; vocabulary as an list of spoken words
+  vocabulary
+  
 ]
-
 
 
 
@@ -56,13 +84,13 @@ speakers-own [
 
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
-10
-649
-470
+475
+22
+1072
+640
 16
 16
-13.0
+17.8
 1
 10
 1
@@ -81,6 +109,162 @@ GRAPHICS-WINDOW
 1
 ticks
 30.0
+
+CHOOSER
+7
+13
+145
+58
+geo-setup-type
+geo-setup-type
+"uniform"
+0
+
+CHOOSER
+7
+61
+145
+106
+lang-setup-type
+lang-setup-type
+"random"
+0
+
+SLIDER
+154
+13
+295
+46
+semantic-size
+semantic-size
+0
+100
+50
+1
+1
+NIL
+HORIZONTAL
+
+BUTTON
+324
+147
+390
+180
+NIL
+setup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+SLIDER
+12
+224
+170
+257
+#-random-mutations
+#-random-mutations
+0
+100
+2
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+154
+49
+295
+82
+population-size
+population-size
+0
+100
+50
+1
+1
+NIL
+HORIZONTAL
+
+BUTTON
+324
+185
+391
+218
+NIL
+go
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+PLOT
+1081
+23
+1383
+246
+diversity
+NIL
+NIL
+0.0
+10.0
+0.0
+1.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot language-diversity"
+
+SLIDER
+12
+188
+170
+221
+initial-voc-variability
+initial-voc-variability
+0
+1
+0.05
+0.01
+1
+NIL
+HORIZONTAL
+
+OUTPUT
+1084
+344
+1404
+669
+10
+
+BUTTON
+1085
+307
+1174
+340
+show voc
+show-vocabulary
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
