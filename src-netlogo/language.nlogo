@@ -90,7 +90,6 @@ speakers-own [
 
 
 
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -148,7 +147,7 @@ semantic-size
 semantic-size
 0
 100
-50
+6
 1
 1
 NIL
@@ -195,7 +194,7 @@ population-size
 population-size
 0
 100
-50
+100
 1
 1
 NIL
@@ -245,7 +244,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.48
+0.25
 0.01
 1
 NIL
