@@ -318,7 +318,7 @@ MONITOR
 666
 597
 711
-w-maped
+w-mapped
 length table:keys semantic-mapping
 17
 1
