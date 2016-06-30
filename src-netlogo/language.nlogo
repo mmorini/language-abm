@@ -89,7 +89,6 @@ speakers-own [
 
 
 
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -244,7 +243,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.08
+0.31
 0.01
 1
 NIL
@@ -299,7 +298,7 @@ SWITCH
 438
 output-print?
 output-print?
-0
+1
 1
 -1000
 
