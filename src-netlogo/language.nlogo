@@ -3,24 +3,24 @@ extensions[matrix table]
 
 
 __includes[
- 
+
  "setup.nls"
-  
+
  "main.nls"
-  
+
  "speaker.nls"
-  
+
  "vocabulary.nls"
-  
+
  "indicators.nls"
-  
-  
+
+
   ;;;;;;;;;;
   ;; utils
-  
+
   "utils/List.nls"
-  
-  
+
+
 ]
 
 
@@ -28,31 +28,31 @@ __includes[
 
 
 globals [
-  
+
   ;; list of semantics
   ; semantic content with list of canonic words (that correspond to the actual semantic)
   semantics
-  
+
   ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
   semantic-mapping
-  
+
   ;; list of syllables
   syllables
-  
+
   ; distance matrix between syllables
   ;  M[syl_id1,syl_id2] = distance
   syllable-distance-matrix
-  
+
   ; size of words in syllables
   word-size
- 
+
   ; sentences
   sentence-min-length
   sentence-max-length
- 
+
   ; interaction radius
   speaking-radius
-  
+
 ]
 
 
@@ -61,11 +61,11 @@ breed[spoken-words spoken-word]
 
 spoken-words-own [
   ; list of syllabes
-  word-syllables 
+  word-syllables
 
   ; actual text (for display)
   word-text
-  
+
   ; semantic
   semantic
 ]
@@ -76,16 +76,14 @@ breed [speakers speaker]
 speakers-own [
   ; how the speaker will influence the other
   influence-score
-  
+
   ; vocabulary as an list of spoken words
   vocabulary
-  
+
   ; is the speaker currently speaking
   speaking?
-  
+
 ]
-
-
 
 
 
@@ -146,7 +144,7 @@ semantic-size
 semantic-size
 0
 100
-50
+5
 1
 1
 NIL
@@ -177,8 +175,8 @@ SLIDER
 #-random-mutations
 #-random-mutations
 0
-100
-0
+1
+0.01
 0.01
 1
 NIL
@@ -193,7 +191,7 @@ population-size
 population-size
 0
 100
-50
+100
 1
 1
 NIL
@@ -243,7 +241,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.94
+0.5
 0.01
 1
 NIL

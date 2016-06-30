@@ -8,7 +8,7 @@
 ;
 ;  -> use drifted random walks
 ;    - people have fixed home ; commute randomly according to a gravity law (density of houses)
-;    - 
+;    - Lévy-flight sort of random walk, short step after successful interaction, long step after failure
 to wander-speakers
   ask speakers [
     lt random-float 60 - 30 fd 1 
