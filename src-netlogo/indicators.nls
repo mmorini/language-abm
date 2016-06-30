@@ -16,7 +16,10 @@ to-report language-diversity
   ; TODO : forgotten words are taken into account -> kill them ! 
   
   foreach table:keys semantic-mapping [
-     set res res + word-distance one-of spoken-words with [word-text = ?] one-of spoken-words with [word-text = table:get semantic-mapping ?]
+    let w1 one-of spoken-words with [word-text = first ? and [word-text] of semantic = last ?]
+    let w2 one-of spoken-words with [word-text = last ? and [word-text] of semantic = last ?]
+    if w1 = nobody or w2 = nobody [show ? show table:get semantic-mapping ? let x user-yes-or-no? "bug : word does not exist anymore"]
+    set res res + word-distance w1 w2
   ]
   
   report res

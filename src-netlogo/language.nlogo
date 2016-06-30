@@ -14,6 +14,8 @@ __includes[
   
  "indicators.nls"
   
+ "display.nls"
+  
   
   ;;;;;;;;;;
   ;; utils
@@ -146,7 +148,7 @@ semantic-size
 semantic-size
 0
 100
-50
+10
 1
 1
 NIL
@@ -177,8 +179,8 @@ SLIDER
 #-random-mutations
 #-random-mutations
 0
-100
-0
+0.5
+0.05
 0.01
 1
 NIL
@@ -193,7 +195,7 @@ population-size
 population-size
 0
 100
-50
+100
 1
 1
 NIL
@@ -243,7 +245,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.94
+0.36
 0.01
 1
 NIL
@@ -320,6 +322,28 @@ MONITOR
 711
 w-maped
 length table:keys semantic-mapping
+17
+1
+11
+
+MONITOR
+635
+665
+731
+710
+min sem level
+min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
+17
+1
+11
+
+MONITOR
+740
+665
+806
+710
+semantics
+length semantics
 17
 1
 11

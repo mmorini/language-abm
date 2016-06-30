@@ -53,10 +53,12 @@ to make-conversations
        ifelse dominating? [
          let new one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
          let old one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+         if new = nobody [inspect interlocutor let x user-yes-or-no? "bug"]
          ask interlocutor [update-vocabulary old new]
        ][
          let old one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
          let new one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+         if new = nobody [inspect self let x user-yes-or-no? "bug"] 
          update-vocabulary old new
        ]
        
@@ -67,11 +69,20 @@ end
 
 
 to update-vocabulary [old new]
+  if length remove-duplicates map [[semantic] of ?] vocabulary < semantic-size [
+    inspect old inspect new show old show new inspect self let x user-yes-or-no? "bug : user lost one semantic - before update"
+  ]
+  
+  
   if old != new and output-print? [output-print (word "modif : " [word-text] of old " - " [word-text] of new)]
   
-  
-  ; TODO : sometimes old not in voc ? -> check voc creation
-  if position old vocabulary != false [set vocabulary replace-item (position old vocabulary) vocabulary new]
+  if old != new [
+    ; TODO : sometimes old not in voc ? -> check voc creation
+    ifelse position old vocabulary != false [set vocabulary replace-item (position old vocabulary) vocabulary new][inspect self let x user-yes-or-no? "bug : no old"]
+  ]
+  if length remove-duplicates map [[semantic] of ?] vocabulary < semantic-size [
+    inspect old inspect new show old show new inspect self let x user-yes-or-no? "bug : user lost one semantic"
+  ]
 end
 
 
