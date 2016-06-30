@@ -22,6 +22,8 @@ to-report to-agentset [l]
   if is-turtle? first l [report turtles with [member? self l]]
   if is-patch? first l [report patches with [member? self l]]
   if is-link? first l [report links with [member? self l]]
+  ;output-print l
+  ;report l
 end
 
 

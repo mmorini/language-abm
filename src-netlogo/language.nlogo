@@ -13,8 +13,15 @@ __includes[
  "vocabulary.nls"
 
  "indicators.nls"
+<<<<<<< HEAD
 
 
+=======
+  
+ "display.nls"
+  
+  
+>>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
   ;;;;;;;;;;
   ;; utils
 
@@ -144,7 +151,11 @@ semantic-size
 semantic-size
 0
 100
+<<<<<<< HEAD
 5
+=======
+10
+>>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 1
 1
 NIL
@@ -170,13 +181,18 @@ NIL
 SLIDER
 12
 224
-170
+205
 257
 #-random-mutations
 #-random-mutations
 0
+<<<<<<< HEAD
 1
 0.01
+=======
+0.5
+0.05
+>>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 0.01
 1
 NIL
@@ -235,13 +251,17 @@ PENS
 SLIDER
 12
 188
-170
+205
 221
 initial-voc-variability
 initial-voc-variability
 0
 1
+<<<<<<< HEAD
 0.5
+=======
+0.36
+>>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 0.01
 1
 NIL
@@ -316,11 +336,48 @@ MONITOR
 666
 597
 711
-w-mapped
+w-maped
 length table:keys semantic-mapping
 17
 1
 11
+
+MONITOR
+635
+665
+731
+710
+min sem level
+min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
+17
+1
+11
+
+MONITOR
+740
+665
+806
+710
+semantics
+length semantics
+17
+1
+11
+
+SLIDER
+13
+262
+204
+295
+understanding-threshold
+understanding-threshold
+0
+1
+0.2
+0.05
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

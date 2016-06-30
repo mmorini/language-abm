@@ -1,0 +1,13 @@
+
+;; display
+
+
+to update-display
+  color-speakers
+end
+
+
+
+to color-speakers
+  
+end
