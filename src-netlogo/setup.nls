@@ -29,6 +29,8 @@ to setup-globals
   ; word length in syllables
   set word-size 3
   
+  set sentence-max-length 5
+  set sentence-min-length 3
   
 end
 

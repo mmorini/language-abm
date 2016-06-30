@@ -89,7 +89,6 @@ speakers-own [
 
 
 
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -179,7 +178,7 @@ SLIDER
 #-random-mutations
 0
 100
-0.02
+0.06
 0.01
 1
 NIL
