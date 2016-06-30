@@ -13,15 +13,10 @@ __includes[
  "vocabulary.nls"
 
  "indicators.nls"
-<<<<<<< HEAD
-
-
-=======
   
  "display.nls"
   
   
->>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
   ;;;;;;;;;;
   ;; utils
 
@@ -151,11 +146,7 @@ semantic-size
 semantic-size
 0
 100
-<<<<<<< HEAD
 5
-=======
-10
->>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 1
 1
 NIL
@@ -186,13 +177,8 @@ SLIDER
 #-random-mutations
 #-random-mutations
 0
-<<<<<<< HEAD
-1
-0.01
-=======
 0.5
 0.05
->>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 0.01
 1
 NIL
@@ -257,11 +243,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-<<<<<<< HEAD
 0.5
-=======
-0.36
->>>>>>> 7ed8f21e04df7816c04b954fce2c10f585a2e15d
 0.01
 1
 NIL
