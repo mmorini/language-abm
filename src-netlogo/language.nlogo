@@ -243,7 +243,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.31
+0.71
 0.01
 1
 NIL
