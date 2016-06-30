@@ -90,7 +90,6 @@ speakers-own [
 
 
 
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -245,7 +244,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.48
+0.08
 0.01
 1
 NIL
@@ -292,6 +291,39 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "plot count spoken-words"
+
+SWITCH
+12
+405
+141
+438
+output-print?
+output-print?
+0
+1
+-1000
+
+MONITOR
+475
+666
+532
+711
+words
+count spoken-words
+17
+1
+11
+
+MONITOR
+535
+666
+597
+711
+w-maped
+length table:keys semantic-mapping
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?

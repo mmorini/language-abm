@@ -53,16 +53,18 @@ to setup-language
     
     ; construct semantics and corresponding words
     set semantics []
-    repeat semantic-size [
-      set semantics lput new-random-spoken-word semantics 
+    while [length semantics < semantic-size] [
+      let w new-random-spoken-word
+      if not member? w semantics [set semantics lput w semantics]
     ]
     
     ; random distance matrix between syllables
     set syllable-distance-matrix matrix:make-constant length syllables length syllables 0
     let i 0 let j 1 repeat (length syllables - 1) [set j i + 1 repeat (length syllables - i - 1) [matrix:set syllable-distance-matrix i j (random-float 1) set j j + 1] set i i + 1] 
     
-    ; empty mapping
+    ; mapping initially contains semantics
     set semantic-mapping table:make
+    foreach semantics [update-semantic-mapping ?]
     
   ]
   

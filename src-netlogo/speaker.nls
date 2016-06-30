@@ -67,7 +67,7 @@ end
 
 
 to update-vocabulary [old new]
-  if old != new [output-print (word "modif : " [word-text] of old " - " [word-text] of new)]
+  if old != new and output-print? [output-print (word "modif : " [word-text] of old " - " [word-text] of new)]
   set vocabulary replace-item (position old vocabulary) vocabulary new
 end
 
