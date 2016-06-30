@@ -174,7 +174,7 @@ NIL
 SLIDER
 12
 224
-170
+205
 257
 #-random-mutations
 #-random-mutations
@@ -239,7 +239,7 @@ PENS
 SLIDER
 12
 188
-170
+205
 221
 initial-voc-variability
 initial-voc-variability
@@ -347,6 +347,21 @@ length semantics
 17
 1
 11
+
+SLIDER
+13
+262
+204
+295
+understanding-threshold
+understanding-threshold
+0
+1
+0.2
+0.05
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

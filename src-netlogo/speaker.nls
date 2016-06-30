@@ -48,18 +48,21 @@ to make-conversations
        
        ;output-print (word "conversation : " sem-sentence)
        
-       ; construct effective sentence ? no need, just get word that will change
-       let cross-index random sentence-length
-       ifelse dominating? [
-         let new one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
-         let old one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
-         if new = nobody [inspect interlocutor let x user-yes-or-no? "bug"]
-         ask interlocutor [update-vocabulary old new]
-       ][
-         let old one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
-         let new one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
-         if new = nobody [inspect self let x user-yes-or-no? "bug"] 
-         update-vocabulary old new
+       if understandable? sem-sentence self interlocutor [
+         ; construct effective sentence ? no need, just get word that will change
+         let cross-index random sentence-length
+         ifelse dominating? [
+           let new one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+           let old one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+           if new = nobody [inspect interlocutor let x user-yes-or-no? "bug"]
+           ask interlocutor [update-vocabulary old new]
+         ][
+           let old one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+           let new one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+           if new = nobody [inspect self let x user-yes-or-no? "bug"] 
+           update-vocabulary old new
+         ]
+       
        ]
        
      ]
@@ -88,6 +91,15 @@ end
 
 
 
+to-report understandable? [s speaker1 speaker2]
+  let s1 [] let s2 []
+  foreach s [
+    ; construct effective phrases ; dirty
+    set s1 lput (one-of ((to-agentset [vocabulary] of speaker1) with [[semantic] of self = ?])) s1
+    set s2 lput (one-of ((to-agentset [vocabulary] of speaker2) with [[semantic] of self = ?])) s1
+  ]
+  report (sentence-distance s1 s2) < understanding-threshold
+end
 
 
 to new-speaker
