@@ -45,13 +45,6 @@ globals [
   
   ; size of words in syllables
   word-size
- 
-  ; sentences
-  sentence-min-length
-  sentence-max-length
- 
-  ; interaction radius
-  speaking-radius
   
 ]
 
@@ -80,9 +73,6 @@ speakers-own [
   ; vocabulary as an list of spoken words
   vocabulary
   
-  ; is the speaker currently speaking
-  speaking?
-  
 ]
 
 
@@ -90,6 +80,11 @@ speakers-own [
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of a65f89f... netlogo:working_version
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -179,8 +174,8 @@ SLIDER
 #-random-mutations
 0
 100
-0.02
-0.01
+2
+1
 1
 NIL
 HORIZONTAL
@@ -220,8 +215,8 @@ NIL
 PLOT
 1081
 23
-1360
-201
+1383
+246
 diversity
 NIL
 NIL
@@ -244,24 +239,28 @@ initial-voc-variability
 initial-voc-variability
 0
 1
+<<<<<<< HEAD
 0.25
+=======
+0.05
+>>>>>>> parent of a65f89f... netlogo:working_version
 0.01
 1
 NIL
 HORIZONTAL
 
 OUTPUT
-1078
-425
-1398
-750
+1084
+344
+1404
+669
 10
 
 BUTTON
-1079
-388
-1168
-421
+1085
+307
+1174
+340
 show voc
 show-vocabulary
 NIL
@@ -273,24 +272,6 @@ NIL
 NIL
 NIL
 1
-
-PLOT
-1081
-203
-1359
-373
-words
-NIL
-NIL
-0.0
-10.0
-0.0
-10.0
-true
-false
-"" ""
-PENS
-"default" 1.0 0 -16777216 true "" "plot count spoken-words"
 
 @#$#@#$#@
 ## WHAT IS IT?

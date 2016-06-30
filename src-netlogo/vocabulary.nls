@@ -8,24 +8,15 @@
 to mutate-vocabulary
   
   ; random mutation
-  repeat (floor #-random-mutations) + 1 [
-    if random-float 1 < #-random-mutations [
-      let mutating-speaker one-of speakers
-      let to-mutate one-of [vocabulary] of mutating-speaker
-      let mutated mutated-word to-mutate
-      ask mutating-speaker [set vocabulary lput mutated remove to-mutate vocabulary]
-    ]
-  ]
-  
-  ; kill unused words
-  let effective-vocs []
-  ask speakers [set effective-vocs lput vocabulary effective-vocs] ; totally unefficent
-  let effectively-spoken concatenate effective-vocs
-  
-  ask spoken-words [
-    if not member? self effectively-spoken [
-      table:remove semantic-mapping [word-text] of self die
-    ]
+  repeat #-random-mutations [
+     ask one-of speakers [
+       ; Q : mutation occur among all speakers on only one ?
+        let to-mutate one-of vocabulary
+        set vocabulary remove to-mutate vocabulary
+        let mutated mutated-word to-mutate
+        set vocabulary lput mutated vocabulary
+        update-semantic-mapping mutated  
+     ]
   ]
   
 end
@@ -36,88 +27,50 @@ end
 to-report new-random-spoken-word
   let res nobody
   create-spoken-words 1 [
+    set hidden? true
     set word-syllables (list one-of syllables one-of syllables one-of syllables)
+    set word-text "" foreach word-syllables [set word-text (word ? word-text)]
     set semantic self
     set res self
-    new-spoken-word
   ]
   report res
-end
-
-to new-spoken-word
-  set hidden? true set word-text get-word-text
 end
 
 
 ;;
 ; random initial voc
 to-report initial-vocabulary
-;  let res []
-;  ; for each semantics, slight chance to deviate from base word
-;  foreach semantics [
-;    let wdev deviated-word ?
-;    set res lput wdev res
-;    update-semantic-mapping wdev
-;  ]
-;  
+  let res []
+  ; for each semantics, slight chance to deviate from base word
+  foreach semantics [
+    let wdev deviated-word ?
+    set res lput wdev res
+    update-semantic-mapping wdev
+  ]
+  
   ;report to-agentset res
-  let res semantics
   
   report res
 end
-
-
-;; deviate voc for each speaker
-to deviate-vocabularies
-  foreach to-list speakers [   
-    let current-sp ? 
-     foreach [vocabulary] of current-sp [
-       let orig ? let wdev deviated-word orig
-       ask current-sp [set vocabulary replace-item (position orig vocabulary) vocabulary wdev]
-       
-     ] 
-  ]
-
-end
-
 
 
 ;;
 ; deviates slightly a word
 ;
-;  |P(deviation) = initial-voc-variability / length(semantic)
-;  such that intitial-voc-var = |E(total deviation)
-;
-; 
+;  draw a distance randomly (gaussian) ; find syllables mutation that can satisfy it
 to-report deviated-word [w]
-  ; any combination of syllables variation is possible : backpack pb, hard to solve
-  ;  let do it dirtily for now : one-syllable variation, random var
-  let res w
   
-  if random-float 1 < initial-voc-variability / length semantics [
-    create-spoken-words 1 [set res self set word-syllables [word-syllables] of w set semantic [semantic] of w new-spoken-word]
-    ask res [
-      set word-syllables replace-item random word-size word-syllables one-of syllables set word-text get-word-text
-    ]
-    output-print (word "deviation : " [word-text] of w " -> " [word-text] of res)
-    update-semantic-mapping res
-  ]
-  report res
+  ;TODO
+  report w
 end
 
 ;;
 ;  mutate a word
-to-report mutated-word [w]  
-  let res w
-  create-spoken-words 1 [set res self set word-syllables [word-syllables] of w set semantic [semantic] of w new-spoken-word]
-  ask res [
-    set word-syllables replace-item random word-size word-syllables one-of syllables set word-text get-word-text
-  ]
-  output-print (word "mutation : " [word-text] of w " -> " [word-text] of res)
- 
-  update-semantic-mapping res
- 
-  report res
+to-report mutated-word [w]
+  
+  ; TODO
+  
+  report w
   
 end
 
@@ -130,21 +83,11 @@ to-report syllable-distance [s1 s2]
 end
 
 ;;
-; distance between two words (spoken-words) OF SAME SIZE
-;  - normalized by word size -
+; distance between two words (spoken-words)
 to-report word-distance [w1 w2]
   let res 0 let i 0 let sl1 [word-syllables] of w1 let sl2 [word-syllables] of w2
   foreach sl1 [set res res + syllable-distance ? item i sl2 set i i + 1]
-  report res / word-size
-end
-
-;;
-; distance between two sentences OF SAME LENGTH
-;  - normalized by sentence size
-to-report sentence-distance [s1 s2]
-  let res 0 let i 0
-  foreach s1 [set res res + word-distance ? item i s2 set i i + 1]
-  report res / length s1
+  report res
 end
 
 
@@ -152,10 +95,6 @@ to update-semantic-mapping [w]
   table:put semantic-mapping [word-text] of w [word-text] of [semantic] of w
 end
 
-
-to-report get-word-text
-  let res "" foreach word-syllables [set res (word ? res)] report res
-end
 
 
 
