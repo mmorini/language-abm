@@ -11,7 +11,11 @@
 ;    - Lévy-flight sort of random walk, short step after successful interaction, long step after failure
 to wander-speakers
   ask speakers [
-    lt random-float 60 - 30 fd 1 
+    ifelse happy? [
+      lt random-float 60 - 30 fd 0.1 
+    ][
+      lt random-float 60 - 30 fd 1
+    ]
   ]
 end
 
@@ -48,7 +52,9 @@ to make-conversations
        
        ;output-print (word "conversation : " sem-sentence)
        
-       if understandable? sem-sentence self interlocutor [
+       ifelse understandable? sem-sentence self interlocutor [
+        ;also keep track of last interaction (successful communication or not)
+         set happy? true
          ; construct effective sentence ? no need, just get word that will change
          let cross-index random sentence-length
          ifelse dominating? [
@@ -62,7 +68,9 @@ to make-conversations
            if new = nobody [inspect self let x user-yes-or-no? "bug"] 
            update-vocabulary old new
          ]
-       
+         
+       ][
+         set happy? false
        ]
        
      ]

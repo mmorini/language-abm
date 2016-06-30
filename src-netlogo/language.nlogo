@@ -84,9 +84,11 @@ speakers-own [
 
   ; is the speaker currently speaking
   speaking?
+  
+  ; was the last communication successful?
+  happy?
 
 ]
-
 
 
 @#$#@#$#@
@@ -178,7 +180,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.05
+0.47
 0.01
 1
 NIL
@@ -243,7 +245,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.5
+0.89
 0.01
 1
 NIL
@@ -355,11 +357,29 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.2
+0.55
 0.05
 1
 NIL
 HORIZONTAL
+
+PLOT
+266
+490
+466
+640
+Mutual Intelligibility
+NIL
+NIL
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true]"
 
 @#$#@#$#@
 ## WHAT IS IT?

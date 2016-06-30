@@ -93,6 +93,7 @@ to setup-speakers
   
   create-speakers population-size [
      new-speaker
+     set happy? false
   ]
   
   deviate-vocabularies
