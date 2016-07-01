@@ -113,12 +113,30 @@ to-report understandable? [s speaker1 speaker2]
 end
 
 
+;;
+;  compute individual-level indicators
+to update-speaker-vars
+  ask speakers [set speaker-diversity get-speaker-diversity]
+end
+
+
+to-report get-speaker-diversity
+  let res 0
+  ; voc assumed of fixed size
+  foreach vocabulary [set res res + word-distance ? [semantic] of ?]
+  report res
+end
+
+
+
 to new-speaker
   
   ; random influence score
   set influence-score random-float 1
   
-  set shape "person" set color red set size 1
+  set shape "person" set color red
+  
+  set size 0.5 + influence-score
   
   ;
   setxy random-xcor random-ycor

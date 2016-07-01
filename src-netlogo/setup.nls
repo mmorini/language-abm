@@ -18,6 +18,8 @@ to setup
   ; speakers
   setup-speakers
   
+  update-display
+  
   reset-ticks
   
 end
