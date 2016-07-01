@@ -3,11 +3,16 @@
 
 
 to update-display
+  
+  update-speaker-vars
+  
   color-speakers
 end
 
 
 
 to color-speakers
-  
+  ; set color according to diversity
+  let mi min [speaker-diversity] of speakers let ma max [speaker-diversity] of speakers
+  ask speakers [set color gradient:scale [[0 0 255][255 0 0]] speaker-diversity mi ma]
 end

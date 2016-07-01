@@ -1,5 +1,5 @@
 
-extensions[matrix table]
+extensions[matrix table gradient]
 
 
 __includes[
@@ -87,9 +87,11 @@ speakers-own [
   
   ; was the last communication successful?
   happy?
+  
+  ; linguistic diversity of the guy
+  speaker-diversity
 
 ]
-
 
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -148,7 +150,7 @@ semantic-size
 semantic-size
 0
 100
-5
+15
 1
 1
 NIL
@@ -180,7 +182,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.47
+0.03
 0.01
 1
 NIL
@@ -195,7 +197,7 @@ population-size
 population-size
 0
 100
-100
+68
 1
 1
 NIL
@@ -245,7 +247,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.89
+0.35
 0.01
 1
 NIL
@@ -305,10 +307,10 @@ output-print?
 -1000
 
 MONITOR
-475
-666
-532
-711
+477
+697
+534
+742
 words
 count spoken-words
 17
@@ -316,10 +318,10 @@ count spoken-words
 11
 
 MONITOR
-535
-666
-597
-711
+537
+697
+599
+742
 w-maped
 length table:keys semantic-mapping
 17
@@ -327,10 +329,10 @@ length table:keys semantic-mapping
 11
 
 MONITOR
-635
-665
-731
-710
+637
+696
+733
+741
 min sem level
 min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
 17
@@ -338,10 +340,10 @@ min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
 11
 
 MONITOR
-740
-665
-806
-710
+742
+696
+808
+741
 semantics
 length semantics
 17
@@ -357,7 +359,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.55
+0.05
 0.05
 1
 NIL
@@ -380,6 +382,26 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true]"
+
+TEXTBOX
+476
+648
+852
+666
+Speakers color : blue = less diverse -> red = most diverse
+11
+0.0
+1
+
+TEXTBOX
+477
+667
+627
+685
+Speakers size : influence
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
