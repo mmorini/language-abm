@@ -160,6 +160,7 @@ end
 to-report word-distance [w1 w2]
   let res 0 let i 0 let sl1 [word-syllables] of w1 let sl2 [word-syllables] of w2
   foreach sl1 [set res res + syllable-distance ? item i sl2 set i i + 1]
+  ; output-print (word "ww " w1 " " w2 " - " res)
   report res / word-size
 end
 
@@ -169,6 +170,7 @@ end
 to-report sentence-distance [s1 s2]
   let res 0 let i 0
   foreach s1 [set res res + word-distance ? item i s2 set i i + 1]
+  ; output-print (word "ss " s1 " " s2 " -> " res)
   report res / length s1
 end
 

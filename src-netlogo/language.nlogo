@@ -148,7 +148,7 @@ semantic-size
 semantic-size
 0
 100
-5
+12
 1
 1
 NIL
@@ -180,7 +180,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.47
+0.04
 0.01
 1
 NIL
@@ -195,7 +195,7 @@ population-size
 population-size
 0
 100
-100
+54
 1
 1
 NIL
@@ -245,7 +245,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.89
+0.27
 0.01
 1
 NIL
@@ -357,7 +357,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.55
+0.05
 0.05
 1
 NIL

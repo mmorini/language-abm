@@ -28,7 +28,7 @@ to make-conversations
   ask speakers [set speaking? false]
   
   ask speakers [
-     let potential-interlocutors (speakers with [not speaking?]) in-radius speaking-radius
+     let potential-interlocutors (other speakers with [not speaking?]) in-radius speaking-radius
      if count potential-interlocutors > 0 [
        set speaking? true
        let interlocutor one-of potential-interlocutors
@@ -51,7 +51,8 @@ to make-conversations
        let sem-sentence [] repeat sentence-length [set sem-sentence lput one-of semantics sem-sentence]
        
        ;output-print (word "conversation : " sem-sentence)
-       
+       ;output-print ( understandable? happy? )
+
        ifelse understandable? sem-sentence self interlocutor [
         ;also keep track of last interaction (successful communication or not)
          set happy? true
@@ -101,11 +102,13 @@ end
 
 to-report understandable? [s speaker1 speaker2]
   let s1 [] let s2 []
+  ; show (word speaker1 speaker2)
   foreach s [
     ; construct effective phrases ; dirty
     set s1 lput (one-of ((to-agentset [vocabulary] of speaker1) with [[semantic] of self = ?])) s1
-    set s2 lput (one-of ((to-agentset [vocabulary] of speaker2) with [[semantic] of self = ?])) s1
+    set s2 lput (one-of ((to-agentset [vocabulary] of speaker2) with [[semantic] of self = ?])) s2
   ]
+  ;output-write (word s1 != s2)
   report (sentence-distance s1 s2) < understanding-threshold
 end
 
