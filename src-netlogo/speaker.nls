@@ -12,7 +12,7 @@
 to wander-speakers
   ask speakers [
     ifelse happy? [
-      lt random-float 60 - 30 fd 0.1 
+      lt random-float 60 - 30 fd 0.01
     ][
       lt random-float 60 - 30 fd 1
     ]

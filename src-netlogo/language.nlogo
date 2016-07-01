@@ -120,7 +120,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.02
+0.34
 0.01
 1
 NIL
@@ -297,7 +297,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.5
+0.2
 0.05
 1
 NIL
