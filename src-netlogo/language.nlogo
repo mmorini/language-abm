@@ -29,68 +29,6 @@ __includes[
 
 
 
-globals [
-
-  ;; list of semantics
-  ; semantic content with list of canonic words (that correspond to the actual semantic)
-  semantics
-
-  ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
-  semantic-mapping
-
-  ;; list of syllables
-  syllables
-
-  ; distance matrix between syllables
-  ;  M[syl_id1,syl_id2] = distance
-  syllable-distance-matrix
-
-  ; size of words in syllables
-  word-size
-
-  ; sentences
-  sentence-min-length
-  sentence-max-length
-
-  ; interaction radius
-  speaking-radius
-
-]
-
-
-
-breed[spoken-words spoken-word]
-
-spoken-words-own [
-  ; list of syllabes
-  word-syllables
-
-  ; actual text (for display)
-  word-text
-
-  ; semantic
-  semantic
-]
-
-
-breed [speakers speaker]
-
-speakers-own [
-  ; how the speaker will influence the other
-  influence-score
-
-  ; vocabulary as an list of spoken words
-  vocabulary
-
-  ; is the speaker currently speaking
-  speaking?
-  
-  ; was the last communication successful?
-  happy?
-  ; linguistic diversity of the guy
-  speaker-diversity
-
-]
 
 
 @#$#@#$#@
@@ -150,7 +88,7 @@ semantic-size
 semantic-size
 0
 100
-12
+8
 1
 1
 NIL
@@ -182,7 +120,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.04
+0.02
 0.01
 1
 NIL
@@ -197,7 +135,7 @@ population-size
 population-size
 0
 100
-54
+100
 1
 1
 NIL
@@ -247,7 +185,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.27
+0.2
 0.01
 1
 NIL
@@ -359,7 +297,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.05
+0.5
 0.05
 1
 NIL

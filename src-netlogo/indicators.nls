@@ -31,10 +31,10 @@ to show-vocabulary
   let semvals table:make
   
   foreach table:keys semantic-mapping [
-     ifelse table:has-key? semvals ? [
-         table:put semvals table:get semantic-mapping ? (lput ? (table:get semvals (table:get semantic-mapping ?)))
+     ifelse table:has-key? semvals table:get semantic-mapping ? [
+         table:put semvals table:get semantic-mapping ? (lput first ? (table:get semvals (table:get semantic-mapping ?)))
        ][
-         table:put semvals table:get semantic-mapping ? (list ?)
+         table:put semvals table:get semantic-mapping ? (list first ?)
      ]
   ]
   
