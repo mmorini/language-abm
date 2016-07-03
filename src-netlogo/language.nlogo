@@ -29,68 +29,6 @@ __includes[
 
 
 
-globals [
-
-  ;; list of semantics
-  ; semantic content with list of canonic words (that correspond to the actual semantic)
-  semantics
-
-  ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
-  semantic-mapping
-
-  ;; list of syllables
-  syllables
-
-  ; distance matrix between syllables
-  ;  M[syl_id1,syl_id2] = distance
-  syllable-distance-matrix
-
-  ; size of words in syllables
-  word-size
-
-  ; sentences
-  sentence-min-length
-  sentence-max-length
-
-  ; interaction radius
-  speaking-radius
-
-]
-
-
-
-breed[spoken-words spoken-word]
-
-spoken-words-own [
-  ; list of syllabes
-  word-syllables
-
-  ; actual text (for display)
-  word-text
-
-  ; semantic
-  semantic
-]
-
-
-breed [speakers speaker]
-
-speakers-own [
-  ; how the speaker will influence the other
-  influence-score
-
-  ; vocabulary as an list of spoken words
-  vocabulary
-
-  ; is the speaker currently speaking
-  speaking?
-  
-  ; was the last communication successful?
-  happy?
-  ; linguistic diversity of the guy
-  speaker-diversity
-
-]
 
 
 @#$#@#$#@
@@ -150,7 +88,7 @@ semantic-size
 semantic-size
 0
 100
-15
+8
 1
 1
 NIL
@@ -182,7 +120,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.03
+0.34
 0.01
 1
 NIL
@@ -197,7 +135,7 @@ population-size
 population-size
 0
 100
-68
+100
 1
 1
 NIL
@@ -247,7 +185,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.35
+0.2
 0.01
 1
 NIL
@@ -307,10 +245,10 @@ output-print?
 -1000
 
 MONITOR
-477
-697
-534
-742
+475
+666
+532
+711
 words
 count spoken-words
 17
@@ -318,10 +256,10 @@ count spoken-words
 11
 
 MONITOR
-537
-697
-599
-742
+535
+666
+597
+711
 w-maped
 length table:keys semantic-mapping
 17
@@ -329,10 +267,10 @@ length table:keys semantic-mapping
 11
 
 MONITOR
-637
-696
-733
-741
+635
+665
+731
+710
 min sem level
 min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
 17
@@ -340,10 +278,10 @@ min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
 11
 
 MONITOR
-742
-696
-808
-741
+740
+665
+806
+710
 semantics
 length semantics
 17
@@ -359,7 +297,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.05
+0.2
 0.05
 1
 NIL
@@ -382,25 +320,6 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true]"
-TEXTBOX
-476
-648
-852
-666
-Speakers color : blue = less diverse -> red = most diverse
-11
-0.0
-1
-
-TEXTBOX
-477
-667
-627
-685
-Speakers size : influence
-11
-0.0
-1
 
 @#$#@#$#@
 ## WHAT IS IT?
