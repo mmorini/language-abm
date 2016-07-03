@@ -1,0 +1,101 @@
+
+;;
+; main for headless
+;   (more globals, defined in gui in model)
+
+
+
+globals [
+
+  ;; list of semantics
+  ; semantic content with list of canonic words (that correspond to the actual semantic)
+  semantics
+
+  ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
+  semantic-mapping
+
+  ;; list of syllables
+  syllables
+
+  ; distance matrix between syllables
+  ;  M[syl_id1,syl_id2] = distance
+  syllable-distance-matrix
+
+  ; size of words in syllables
+  word-size
+
+  ; sentences
+  sentence-min-length
+  sentence-max-length
+
+  ; interaction radius
+  speaking-radius
+
+
+  ;; HEADLESS
+  geo-setup-type
+  lang-setup-type
+  
+  semantic-size
+  population-size
+  initial-voc-variability
+  #-random-mutations
+  output-print?
+  understanding-threshold
+
+]
+
+
+
+breed[spoken-words spoken-word]
+
+spoken-words-own [
+  ; list of syllabes
+  word-syllables
+
+  ; actual text (for display)
+  word-text
+
+  ; semantic
+  semantic
+]
+
+
+breed [speakers speaker]
+
+speakers-own [
+  ; how the speaker will influence the other
+  influence-score
+
+  ; vocabulary as an list of spoken words
+  vocabulary
+
+  ; is the speaker currently speaking
+  speaking?
+  
+  ; was the last communication successful?
+  happy?
+  ; linguistic diversity of the guy
+  speaker-diversity
+
+]
+
+to go
+  
+  ; move people
+  wander-speakers
+  
+  ; make conversations
+  ;  -> here "crossovers" occur (influence)
+  make-conversations
+  
+  ; mutate words randomly
+  mutate-vocabulary
+  
+  ; update display
+  update-display
+  
+  tick
+  
+end
+

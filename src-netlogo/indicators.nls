@@ -2,10 +2,19 @@
 ;; indicators
 
 ; ratio of sucessful communication
+to-report intelligibility-rate
+  report (count speakers with [happy? = true]) / count speakers
+end
+
+
+; language size
+to-report language-size
+  report count spoken-words
+end
+
+
 
 ; language diversity
-
-
 to-report language-diversity
   
   ;; first attempt : \sum_sem d(w,sem)

@@ -1,0 +1,28 @@
+
+
+;;;
+;  experiments
+
+
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding]
+  
+  ;
+  set geo-setup-type "uniform"
+  set lang-setup-type "random"
+  set output-print? false
+  
+  ; args
+  set semantic-size floor sem-size ; > 0
+  set population-size floor pop-size ; > 0
+  set initial-voc-variability voc-var ; \in [0,1]
+  set #-random-mutations #-mutations ; \in [0,0.5]
+  set understanding-threshold understanding
+  
+  setup
+  
+end
+
+
+to go-experiment
+  
+end
