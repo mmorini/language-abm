@@ -27,6 +27,12 @@ globals [
   ; interaction radius
   speaking-radius
 
+
+  ;;;
+  ;; indicators
+  
+  diversities
+
 ]
 
 
@@ -78,6 +84,7 @@ to go
   
   ; update display
   update-display
+  update-indicators
   
   tick
   

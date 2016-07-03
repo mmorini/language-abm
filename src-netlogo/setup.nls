@@ -36,6 +36,8 @@ to setup-globals
   
   set speaking-radius 1
   
+  set diversities []
+  
 end
 
 

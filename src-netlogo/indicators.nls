@@ -13,6 +13,13 @@ to-report language-size
 end
 
 
+; diversity linear trend (linear OLS)
+to-report diversity-linear-trend
+  ; needs to memorize diversity in time
+  let reg matrix:regress matrix:from-column-list (list diversities (seq 1 length diversities 1))
+  report item 1 (item 0 reg)
+end
+
 
 ; language diversity
 to-report language-diversity
@@ -32,6 +39,12 @@ to-report language-diversity
   ]
   
   report res
+end
+
+
+
+to update-indicators
+  set diversities lput language-diversity diversities
 end
 
 

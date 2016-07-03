@@ -32,6 +32,10 @@ globals [
   speaking-radius
 
 
+  ;; indicators
+  diversities
+
+
   ;; HEADLESS
   geo-setup-type
   lang-setup-type
@@ -92,8 +96,9 @@ to go
   ; mutate words randomly
   mutate-vocabulary
   
-  ; update display
+  ; update display and indicators
   update-display
+  update-indicators
   
   tick
   

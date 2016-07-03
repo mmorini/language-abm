@@ -29,8 +29,6 @@ __includes[
 
 
 
-
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -88,7 +86,7 @@ semantic-size
 semantic-size
 0
 100
-8
+12
 1
 1
 NIL
@@ -120,7 +118,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.34
+0.07
 0.01
 1
 NIL
@@ -185,7 +183,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.2
+0.43
 0.01
 1
 NIL
@@ -297,8 +295,8 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.2
-0.05
+0.01
+0.01
 1
 NIL
 HORIZONTAL
