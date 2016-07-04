@@ -4,7 +4,7 @@
 
 to setup
   
-  ca
+  if headless? = 0 [ca]
   
   ; globals
   setup-globals

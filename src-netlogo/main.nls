@@ -33,6 +33,10 @@ globals [
   
   diversities
 
+
+  ; headless
+  headless?
+
 ]
 
 

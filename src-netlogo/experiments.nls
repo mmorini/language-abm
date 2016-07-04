@@ -4,12 +4,14 @@
 ;  experiments
 
 
-to setup-experiment [sem-size pop-size voc-var #-mutations understanding]
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding time-steps]
   
   ;
   set geo-setup-type "uniform"
   set lang-setup-type "random"
   set output-print? false
+  
+  set total-time-steps time-steps
   
   ; args
   set semantic-size floor sem-size ; > 0
@@ -18,11 +20,17 @@ to setup-experiment [sem-size pop-size voc-var #-mutations understanding]
   set #-random-mutations #-mutations ; \in [0,0.5]
   set understanding-threshold understanding
   
+  set headless? true
+  
   setup
   
 end
 
 
 to go-experiment
+  
+  repeat total-time-steps [
+    go 
+  ]
   
 end

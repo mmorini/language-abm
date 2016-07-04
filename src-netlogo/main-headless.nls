@@ -47,6 +47,10 @@ globals [
   output-print?
   understanding-threshold
 
+  total-time-steps
+
+  headless?
+
 ]
 
 
