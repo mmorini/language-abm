@@ -20,6 +20,10 @@ to-report diversity-linear-trend
   report item 1 (item 0 reg)
 end
 
+to-report abs-trend
+  report abs diversity-linear-trend
+end
+
 
 ; language diversity
 to-report language-diversity

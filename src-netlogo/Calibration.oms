@@ -1,0 +1,40 @@
+
+import Model._
+
+val grid = EGIEnvironment("vo.complex-systems.eu")
+
+  
+val varSetting = ExplorationTask(
+    semanticSize is 10.0,
+    populationSize is 100.0
+) set (
+    inputs += (initVariability,mutationRate,understandingThreshold),
+    outputs += (initVariability,mutationRate,understandingThreshold)
+)
+  
+val eval = varSetting -< model
+
+val evolution =
+    SteadyStateEvolution(
+      algorithm =   
+        NSGA2(
+          mu = 200,
+          genome = 
+            Seq(
+              initVariability in Range(0.0, 1.0),
+              mutationRate in Range(0.0,0.2),
+              understandingThreshold in Range(0.0,1.0)
+            ),
+          objectives = Seq(absTrend)
+        ),
+      evaluation = eval,
+      termination = 10 minutes//10 minutes
+    )
+  
+val island = IslandEvolution(evolution, parallelism = 50,termination=200)//100, termination = 1000)
+
+val savePopulation = SavePopulationHook(island, workDirectory / "calibration" / "calibration_20160704_absTrend") 
+
+(island on grid hook savePopulation)
+  
+
