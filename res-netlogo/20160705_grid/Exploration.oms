@@ -1,0 +1,36 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
+import Model._
+
+//semanticSize  populationSize  initVariability  mutationRate  understandingThreshold
+val exploration = ExplorationTask(
+  (((semanticSize in (10.0 to 110.0 by 50.0)) x
+  (populationSize in (10.0 to 110.0 by 50.0)) x
+  (initVariability in (0.1 to 0.5 by 0.1)) x
+  (mutationRate in (0.01 to 0.1 by 0.02)) x
+  (understandingThreshold in (0.0 to 0.5 by 0.1))
+  ) withIndex id )
+  /*LHS(
+    1,
+    semanticSize in Range(10.0,100.0), 
+    populationSize in Range(10.0,100.0),
+    initVariability in Range(0.0,0.5),
+    mutationRate in Range(0.0,0.1),
+    understandingThreshold in Range(0.0,0.5)
+  ) withIndex id*/
+  x (replication in UniformDistribution[Int]() take 10)
+)
+//val purpose = "test"
+//val purpose = "grid_uniform"
+val purpose = "grid"
+
+val eval = exploration -< model
+
+val indics_hook = AppendToCSVFileHook(workDirectory / "explo" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
+
+//val local = LocalEnvironment(40)
+val grid = DIRACEnvironment("vo.complex-systems.eu")
+
+exploration -< (model on grid by 100 hook indics_hook)
+//exploration -< (model on local hook indics_hook)
