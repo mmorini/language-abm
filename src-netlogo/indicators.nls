@@ -1,11 +1,35 @@
 
 ;; indicators
 
+
+
+
 ; ratio of sucessful communication
+to-report intelligibility-rate
+  report (count speakers with [happy? = true]) / count speakers
+end
+
+
+; language size
+to-report language-size
+  report count spoken-words
+end
+
+
+; diversity linear trend (linear OLS)
+to-report diversity-linear-trend
+  ; needs to memorize diversity in time
+  let reg matrix:regress matrix:from-column-list (list diversities (seq 1 length diversities 1))
+  report item 1 (item 0 reg)
+end
+
+to-report abs-trend
+  report abs diversity-linear-trend
+end
+
+
 
 ; language diversity
-
-
 to-report language-diversity
   
   ;; first attempt : \sum_sem d(w,sem)
@@ -26,6 +50,13 @@ to-report language-diversity
 end
 
 
+
+to update-indicators
+  set diversities lput language-diversity diversities
+end
+
+
+
 ; proper print
 to show-vocabulary
   let semvals table:make
@@ -44,6 +75,40 @@ to show-vocabulary
     output-print p
   ]
   
+end
+
+
+;;
+;
+to-report vocabulary-distance [speaker1 speaker2]
+  let res 0
+  foreach semantics [
+    set res res + word-distance (one-of (to-agentset [vocabulary] of speaker1) with [semantic = ?]) (one-of (to-agentset [vocabulary] of speaker2) with [semantic = ?]) ; dirty
+  ]
+  report res
+end
+
+;;
+; report adjacency list with (agent1id,agent2id,distance)
+to-report overall-voc-distances
+  let res []
+  let speaker-list to-list speakers
+  let i 0 repeat (length speaker-list - 1)[
+    let j (i + 1)
+    repeat (length speaker-list - i - 1)[
+      let s1 item i speaker-list let s2 item j speaker-list
+      set res lput (list [who] of s1 [who] of s2 vocabulary-distance s1 s2) res
+      set j j + 1 
+    ]
+    set i i + 1 
+  ]
+  report res
+end
+
+
+
+to dump-voc-network
+  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist
