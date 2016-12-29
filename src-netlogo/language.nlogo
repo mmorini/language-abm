@@ -27,8 +27,6 @@ __includes[
 ]
 
 
-
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 475
@@ -318,6 +316,16 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true]"
+
+CHOOSER
+8
+109
+146
+154
+wandering-type
+wandering-type
+"random" "memory"
+1
 
 @#$#@#$#@
 ## WHAT IS IT?

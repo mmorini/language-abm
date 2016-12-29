@@ -7,7 +7,7 @@ globals [
   ; semantic content with list of canonic words (that correspond to the actual semantic)
   semantics
 
-  ; semantic mapping : table with (word -> semantic) [a word can have only one semantic]
+  ; semantic mapping : table with (word , semantic) -> semantic [a word can have different semantics indeed]
   semantic-mapping
 
   ;; list of syllables
