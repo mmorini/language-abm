@@ -37,8 +37,6 @@ to-report language-diversity
   
   if semantic-mapping = 0 [report 0]
   
-  ; TODO : forgotten words are taken into account -> kill them ! 
-  
   foreach table:keys semantic-mapping [
     let w1 one-of spoken-words with [word-text = first ? and [word-text] of semantic = last ?]
     let w2 one-of spoken-words with [word-text = last ? and [word-text] of semantic = last ?]

@@ -31,10 +31,8 @@ to setup-globals
   ; word length in syllables
   set word-size 3
   
-  set sentence-min-length 3
   set sentence-max-length 5
-  
-  set speaking-radius 1
+  set sentence-min-length 3
   
   set diversities []
   
@@ -99,7 +97,5 @@ to setup-speakers
      new-speaker
      set happy? false
   ]
-  
-  deviate-vocabularies
   
 end
