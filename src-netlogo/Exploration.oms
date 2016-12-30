@@ -13,7 +13,7 @@ val exploration = ExplorationTask(
   ) withIndex id )*/
   LHS(
     1,
-    semanticSize in Range(10.0,100.0), 
+    semanticSize in Range(10.0,100.0),
     populationSize in Range(10.0,100.0),
     initVariability in Range(0.0,0.5),
     mutationRate in Range(0.0,0.1),
@@ -29,7 +29,7 @@ val eval = exploration -< model
 
 val indics_hook = AppendToCSVFileHook(workDirectory / "explo" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
 
-//val local = LocalEnvironment(40)
+val local = LocalEnvironment(50)
 //val grid = DIRACEnvironment("vo.complex-systems.eu")
 
 //exploration -< (model on grid by 300 hook indics_hook)
