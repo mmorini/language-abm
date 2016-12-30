@@ -48,9 +48,9 @@ to make-conversations
        let dominating? true
        ifelse influence-score > [influence-score] of interlocutor [
          ; note : old rule was wrong, needed to add 1/2
-         if random-float 1 > 0.5 + (influence-score - [influence-score] of interlocutor) [set dominating? false]
+         if random-float 1 > (1 + (influence-score - [influence-score] of interlocutor)) / 2 [set dominating? false]
        ][
-         if random-float 1 < 0.5 + ([influence-score] of interlocutor - influence-score) [set dominating? false]
+         if random-float 1 < (1 + ([influence-score] of interlocutor - influence-score)) / 2 [set dominating? false]
        ]
        
        ; draw sentence
