@@ -17,7 +17,7 @@ to wander-speakers
   if wandering-type = "memory" [
     ask speakers [
       ifelse happy? [
-        lt random-float 60 - 30 fd 0.01
+        lt random-float 60 - 30 fd memory-impedance
       ][
         lt random-float 60 - 30 fd 1
       ]

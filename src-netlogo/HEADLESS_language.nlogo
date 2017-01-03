@@ -25,8 +25,9 @@ __includes[
   ;; utils
 
   "utils/List.nls"
-
-
+  "utils/File.nls"
+  "utils/String.nls"
+  
 ]
 
 

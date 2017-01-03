@@ -4,12 +4,14 @@
 ;  experiments
 
 
-to setup-experiment [sem-size pop-size voc-var #-mutations understanding time-steps]
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp time-steps runid]
   
   ;
   set geo-setup-type "uniform"
   set lang-setup-type "random"
+  set wandering-type "memory"
   set output-print? false
+  set dump-voc? true
   
   set total-time-steps time-steps
   
@@ -19,6 +21,9 @@ to setup-experiment [sem-size pop-size voc-var #-mutations understanding time-st
   set initial-voc-variability voc-var ; \in [0,1]
   set #-random-mutations #-mutations ; \in [0,0.5]
   set understanding-threshold understanding
+  set memory-impedance mem-imp ; 0.01
+  
+  set experiment-id runid
   
   set headless? true
   
@@ -32,5 +37,7 @@ to go-experiment
   repeat total-time-steps [
     go 
   ]
+  
+  if dump-voc? = true [dump-voc-network "_final" ]
   
 end

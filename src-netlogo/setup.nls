@@ -18,6 +18,8 @@ to setup
   ; speakers
   setup-speakers
   
+  if headless? = true and dump-voc? = true [dump-voc-network "_initial"]
+  
   update-display
   
   reset-ticks

@@ -6,10 +6,11 @@ val populationSize = Val[Double]
 val initVariability = Val[Double]
 val mutationRate = Val[Double]
 val understandingThreshold = Val[Double]
+val memoryImpedance = Val[Double]
 
 // indicators
 // intelligibility-rate language-size diversity-linear-trend language-diversity
-val intellibility = Val[Double]
+val intelligibility = Val[Double]
 val languageSize = Val[Double]
 val diversityTrend = Val[Double]
 val languageDiversity = Val[Double]
@@ -18,17 +19,14 @@ val id = Val[Int]
 val replication = Val[Int]
 
 // setup-experiment [sem-size pop-size voc-var #-mutations understanding time-steps]
-val cmds = Seq("setup-experiment ${semanticSize} ${populationSize} ${initVariability} ${mutationRate} ${understandingThreshold} 10000","go-experiment")
+val cmds = Seq("setup-experiment ${semanticSize} ${populationSize} ${initVariability} ${mutationRate} ${understandingThreshold} ${memoryImpedance} 10000 ${id}","go-experiment")
 
 val model =
-//NetLogo5Task.workspace("HEADLESS_circeco.nlogo",cmds,replication)set(//embedWorkspace=true) set (
 NetLogo5Task.workspace(workDirectory,"HEADLESS_language.nlogo",cmds) set(
-    inputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,id),
-    outputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,id),
-    netLogoOutputs += ("intelligibility-rate", intellibility),
+    inputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id),
+    outputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id),
+    netLogoOutputs += ("intelligibility-rate", intelligibility),
     netLogoOutputs += ("language-size", languageSize),
     netLogoOutputs += ("diversity-linear-trend", diversityTrend),
     netLogoOutputs += ("language-diversity", languageDiversity),
 )
-  
-  

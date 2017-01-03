@@ -36,6 +36,8 @@ globals [
   diversities
 
 
+
+
   ;; HEADLESS
   geo-setup-type
   lang-setup-type
@@ -47,7 +49,15 @@ globals [
   output-print?
   understanding-threshold
 
+  memory-impedance
+
   total-time-steps
+
+  wandering-type
+
+  experiment-id
+
+  dump-voc?
 
   headless?
 

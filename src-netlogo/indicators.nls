@@ -105,8 +105,8 @@ end
 
 
 
-to dump-voc-network
-  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/vocabulary_nw_" date-and-time ".csv")
+to dump-voc-network [suffix]
+  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/exploration/networks/" experiment-id suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist
