@@ -22,13 +22,14 @@ val exploration = ExplorationTask(
     memoryImpedance in Range(0.0,2.0)
   )
   x (replication in UniformDistribution[Int]() take 50)
-  ) withIndex id)
+  ) withIndex id )
 )
+
 val purpose = "test"
 //val purpose = "grid_uniform"
 //val purpose = "grid_local"
 
-val eval = exploration -< model
+//val eval = exploration -< model
 
 val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
 

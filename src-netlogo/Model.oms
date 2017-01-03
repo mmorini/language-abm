@@ -21,6 +21,8 @@ val replication = Val[Int]
 // setup-experiment [sem-size pop-size voc-var #-mutations understanding time-steps]
 val cmds = Seq("setup-experiment ${semanticSize} ${populationSize} ${initVariability} ${mutationRate} ${understandingThreshold} ${memoryImpedance} 10000 ${id}","go-experiment")
 
+
+
 val model =
 NetLogo5Task.workspace(workDirectory,"HEADLESS_language.nlogo",cmds) set(
     inputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id),
@@ -28,5 +30,6 @@ NetLogo5Task.workspace(workDirectory,"HEADLESS_language.nlogo",cmds) set(
     netLogoOutputs += ("intelligibility-rate", intelligibility),
     netLogoOutputs += ("language-size", languageSize),
     netLogoOutputs += ("diversity-linear-trend", diversityTrend),
-    netLogoOutputs += ("language-diversity", languageDiversity),
+    netLogoOutputs += ("language-diversity", languageDiversity)
 )
+
