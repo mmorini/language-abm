@@ -5,14 +5,15 @@ import Model._
 
 //semanticSize  populationSize  initVariability  mutationRate  understandingThreshold
 val exploration = ExplorationTask(
-  /*(((semanticSize in (10.0 to 110.0 by 50.0)) x
-  (populationSize in (10.0 to 110.0 by 50.0)) x
-  (initVariability in (0.1 to 0.5 by 0.1)) x
-  (mutationRate in (0.01 to 0.1 by 0.01)) x
-  (understandingThreshold in (0.0 to 0.5 by 0.1))x
+  (((semanticSize is 20.0) x
+  (populationSize is 50.0) x
+  (initVariability is 0.1) x
+  (mutationRate is 0.3) x
+  (understandingThreshold in (0.005 to 0.205 by 0.05))x
   (memoryImpedance in (0.1 to 2.0 by 0.2))
-  ) withIndex id )*/
-  ((LHS(
+  ) withIndex id )
+  x (replication in UniformDistribution[Int]() take 50)
+  /*((LHS(
     1,
     semanticSize in Range(10.0,100.0),
     populationSize in Range(10.0,100.0),
@@ -22,17 +23,18 @@ val exploration = ExplorationTask(
     memoryImpedance in Range(0.0,2.0)
   )
   x (replication in UniformDistribution[Int]() take 50)
-  ) withIndex id)
+  ) withIndex id)*/
   //x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv" )
   //x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv" )
 )
-val purpose = "test"
+//val purpose = "test"
 //val purpose = "grid_uniform"
-//val purpose = "grid_local"
+val purpose = "memory_local"
 
 val eval = exploration -< model
 
 val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
+
 
 //val copyInitHook = CopyFileHook(initFile,workDirectory / "res/exploration/networks/${id}_initial.csv")
 //val copyFinalHook = CopyFileHook(finalFile,workDirectory / "res/exploration/networks/${id}_final.csv")
