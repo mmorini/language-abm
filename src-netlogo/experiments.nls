@@ -4,7 +4,7 @@
 ;  experiments
 
 
-to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp time-steps runid]
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp time-steps runid ]
   
   ;
   set geo-setup-type "uniform"
