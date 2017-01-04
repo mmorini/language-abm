@@ -23,8 +23,8 @@ val exploration = ExplorationTask(
   )
   x (replication in UniformDistribution[Int]() take 50)
   ) withIndex id)
-  x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv" )
-  x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv" )
+  x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv") 
+  x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv") 
 )
 val purpose = "test"
 //val purpose = "grid_uniform"
@@ -34,8 +34,8 @@ val eval = exploration -< model
 
 val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
 
-val copyInitHook = CopyFileHook(initFile,workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv")
-val copyFinalHook = CopyFileHook(finalFile,workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv")
+val copyInitHook = CopyFileHook(initFile,"res/exploration/networks/${id}_initial.csv")
+val copyFinalHook = CopyFileHook(finalFile, "res/exploration/networks/${id}_final.csv")
 
 val local = LocalEnvironment(50)
 //val grid = DIRACEnvironment("vo.complex-systems.eu")
