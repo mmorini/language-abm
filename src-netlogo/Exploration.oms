@@ -14,27 +14,31 @@ val exploration = ExplorationTask(
   ) withIndex id )*/
   ((LHS(
     1,
-    semanticSize in Range(10.0,20.0),
-    populationSize in Range(10.0,20.0),
+    semanticSize in Range(10.0,100.0),
+    populationSize in Range(10.0,100.0),
     initVariability in Range(0.0,0.5),
     mutationRate in Range(0.0,0.1),
     understandingThreshold in Range(0.0,10.0),
     memoryImpedance in Range(0.0,2.0)
   )
   x (replication in UniformDistribution[Int]() take 50)
-  ) withIndex id )
+  ) withIndex id)
+  x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv" )
+  x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv" )
 )
-
 val purpose = "test"
 //val purpose = "grid_uniform"
 //val purpose = "grid_local"
 
-//val eval = exploration -< model
+val eval = exploration -< model
 
 val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
+
+val copyInitHook = CopyFileHook(initFile,workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv")
+val copyFinalHook = CopyFileHook(finalFile,workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv")
 
 val local = LocalEnvironment(50)
 //val grid = DIRACEnvironment("vo.complex-systems.eu")
 
 //exploration -< (model on grid by 300 hook indics_hook)
-exploration -< (model on local hook indics_hook)
+exploration -< (model on local hook indics_hook hook copyInitHook hook copyFinalHook)
