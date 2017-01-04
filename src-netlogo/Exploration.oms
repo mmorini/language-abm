@@ -13,9 +13,9 @@ val exploration = ExplorationTask(
   (memoryImpedance in (0.1 to 2.0 by 0.2))
   ) withIndex id )*/
   ((LHS(
-    5,
-    semanticSize in Range(10.0,100.0),
-    populationSize in Range(10.0,100.0),
+    1,
+    semanticSize in Range(10.0,20.0),
+    populationSize in Range(10.0,20.0),
     initVariability in Range(0.0,0.5),
     mutationRate in Range(0.0,0.1),
     understandingThreshold in Range(0.0,10.0),

@@ -12,7 +12,8 @@ to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp
   set wandering-type "memory"
   set output-print? false
   set dump-voc? true
-  
+  ;set dump-voc? false  
+
   set total-time-steps time-steps
   
   ; args
