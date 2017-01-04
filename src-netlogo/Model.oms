@@ -15,8 +15,8 @@ val languageSize = Val[Double]
 val diversityTrend = Val[Double]
 val languageDiversity = Val[Double]
 
-val initFile = Val[File]
-val finalFile = Val[File]
+//val initFile = Val[File]
+//val finalFile = Val[File]
 
 val id = Val[Int]
 val replication = Val[Int]
@@ -28,11 +28,10 @@ val cmds = Seq("setup-experiment ${semanticSize} ${populationSize} ${initVariabi
 
 val model =
 NetLogo5Task.workspace(workDirectory,"HEADLESS_language.nlogo",cmds) set(
-    inputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id,initFile,finalFile),
-    outputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id,initFile,finalFile),
+    inputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id),
+    outputs += (semanticSize,populationSize,initVariability,mutationRate,understandingThreshold,memoryImpedance,id),
     netLogoOutputs += ("intelligibility-rate", intelligibility),
     netLogoOutputs += ("language-size", languageSize),
     netLogoOutputs += ("diversity-linear-trend", diversityTrend),
     netLogoOutputs += ("language-diversity", languageDiversity)
 )
-

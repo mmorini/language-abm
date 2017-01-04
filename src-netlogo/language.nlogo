@@ -82,7 +82,7 @@ semantic-size
 semantic-size
 0
 100
-12
+20
 1
 1
 NIL
@@ -114,7 +114,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.07
+0.5
 0.01
 1
 NIL
@@ -129,7 +129,7 @@ population-size
 population-size
 0
 100
-100
+50
 1
 1
 NIL
@@ -155,8 +155,8 @@ NIL
 PLOT
 1081
 23
-1360
-201
+1358
+200
 diversity
 NIL
 NIL
@@ -179,24 +179,24 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.43
+0.5
 0.01
 1
 NIL
 HORIZONTAL
 
 OUTPUT
-1078
-425
-1398
-750
+1086
+655
+1406
+980
 10
 
 BUTTON
-1079
-388
-1168
-421
+1087
+618
+1176
+651
 show voc
 show-vocabulary
 NIL
@@ -211,9 +211,9 @@ NIL
 
 PLOT
 1081
-203
-1359
-373
+200
+1358
+377
 words
 NIL
 NIL
@@ -292,16 +292,16 @@ understanding-threshold
 0
 1
 0.01
-0.01
+0.005
 1
 NIL
 HORIZONTAL
 
 PLOT
-266
-490
-466
-640
+1081
+376
+1358
+553
 Mutual Intelligibility
 NIL
 NIL
@@ -322,8 +322,34 @@ CHOOSER
 154
 wandering-type
 wandering-type
-"random" "memory"
+"random" "memory" "areas"
 1
+
+SWITCH
+16
+370
+143
+403
+dump-voc?
+dump-voc?
+1
+1
+-1000
+
+SLIDER
+13
+300
+191
+333
+memory-impedance
+memory-impedance
+0
+2
+1
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

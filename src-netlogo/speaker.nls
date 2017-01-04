@@ -23,6 +23,16 @@ to wander-speakers
       ]
     ]
   ]
+  
+  if wandering-type = "areas" [
+    ask speakers [
+      let p patch-at first geo-center last geo-center let weight exp (- (distance p) / 8)
+      lt random-float 60 - 30
+      set heading (((1 - weight)* heading) + (weight * towards p))
+      fd 1
+    ]
+  ]
+  
 end
 
 

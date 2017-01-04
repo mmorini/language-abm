@@ -38,6 +38,7 @@ to setup-globals
   
   set diversities []
   
+  set speaking-radius 1
 end
 
 
@@ -88,6 +89,12 @@ to setup-geography
   
   if geo-setup-type = "uniform" [] ; do nothing
   
+  set geo-center-coordinates (list [0 0])
+  
+  if wandering-type = "areas" [
+     set geo-center-coordinates (list (list (max-pxcor / 2) (max-pycor / 2)) (list (min-pxcor / 2) (min-pycor / 2)))
+  ]
+  
 end
 
 
@@ -98,6 +105,7 @@ to setup-speakers
   create-speakers population-size [
      new-speaker
      set happy? false
+     set geo-center one-of geo-center-coordinates
   ]
   
 end

@@ -36,6 +36,8 @@ globals [
   diversities
 
 
+  ;; geographical movement : center coordinates
+  geo-center-coordinates
 
 
   ;; HEADLESS
@@ -95,6 +97,9 @@ speakers-own [
   happy?
   ; linguistic diversity of the guy
   speaker-diversity
+
+  ; geo center of wandering
+  geo-center
 
 ]
 
