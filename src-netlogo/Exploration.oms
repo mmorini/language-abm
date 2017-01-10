@@ -9,10 +9,11 @@ val exploration = ExplorationTask(
   (populationSize is 50.0) x
   (initVariability is 0.1) x
   (mutationRate is 0.3) x
-  (understandingThreshold in (0.005 to 0.205 by 0.05))x
-  (memoryImpedance in (0.1 to 2.0 by 0.2))
+  (understandingThreshold is 0.005) x
+  //(understandingThreshold in (0.005 to 0.205 by 0.05))x
+  (memoryImpedance in (0.1 to 2.0 by 0.1))
   ) withIndex id )
-  x (replication in UniformDistribution[Int]() take 50)
+  x (replication in UniformDistribution[Int]() take 1)
   /*((LHS(
     1,
     semanticSize in Range(10.0,100.0),
