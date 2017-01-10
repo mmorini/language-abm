@@ -26,9 +26,10 @@ to wander-speakers
   
   if wandering-type = "areas" [
     ask speakers [
-      let p patch-at first geo-center last geo-center let weight exp (- (distance p) / 8)
-      lt random-float 60 - 30
-      set heading (((1 - weight)* heading) + (weight * towards p))
+      let p patch first geo-center last geo-center let weight exp (- (distance p) / 150)
+      lt random-float 360 - 180
+      if random-float 1 > weight [set heading towards p]
+      ;set heading ((weight * heading) + ((1 - weight) * towards p))
       fd 1
     ]
   ]
@@ -159,5 +160,7 @@ to new-speaker
   setxy random-xcor random-ycor
   
   set vocabulary initial-vocabulary
+  
+  ;pen-down
   
 end

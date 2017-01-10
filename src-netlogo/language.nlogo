@@ -323,7 +323,7 @@ CHOOSER
 wandering-type
 wandering-type
 "random" "memory" "areas"
-1
+2
 
 SWITCH
 16
