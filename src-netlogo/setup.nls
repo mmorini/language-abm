@@ -37,8 +37,11 @@ to setup-globals
   set sentence-min-length 3
   
   set diversities []
+  set inteligs []
   
   set speaking-radius 1
+  
+  set smoothing-window-size 100
 end
 
 
@@ -73,7 +76,7 @@ to setup-language
     
   ]
   
-  ; else : geography, real etc.
+  ; else : synthetic language parametrized from real one ?
   
   
   

@@ -34,7 +34,8 @@ globals [
 
   ;; indicators
   diversities
-
+  inteligs
+  smoothing-window-size
 
   ;; geographical movement : center coordinates
   geo-center-coordinates
@@ -50,7 +51,8 @@ globals [
   #-random-mutations
   output-print?
   understanding-threshold
-
+  wandering-radius
+  
   memory-impedance
 
   total-time-steps

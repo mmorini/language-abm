@@ -4,10 +4,31 @@
 
 
 
+
+
+;;
+; memorize indic values in time
+to update-indicators
+  set diversities lput language-diversity diversities
+  set inteligs lput intelligibility-rate inteligs
+end
+
+
+
+
 ; ratio of sucessful communication
 to-report intelligibility-rate
   report (count speakers with [happy? = true]) / count speakers
 end
+
+; smoothed
+to-report smoothed-intelligibility-rate
+  if length inteligs <= smoothing-window-size [report mean inteligs]
+  report mean sublist inteligs (length inteligs - smoothing-window-size) (length inteligs)
+end
+
+
+
 
 
 ; language size
@@ -16,16 +37,6 @@ to-report language-size
 end
 
 
-; diversity linear trend (linear OLS)
-to-report diversity-linear-trend
-  ; needs to memorize diversity in time
-  let reg matrix:regress matrix:from-column-list (list diversities (seq 1 length diversities 1))
-  report item 1 (item 0 reg)
-end
-
-to-report abs-trend
-  report abs diversity-linear-trend
-end
 
 
 
@@ -48,9 +59,25 @@ to-report language-diversity
 end
 
 
+;;
+;
+to-report smoothed-diversity
+  if length diversities <= smoothing-window-size [report mean diversities]
+  report mean sublist diversities (length diversities - smoothing-window-size) (length diversities)
+end
 
-to update-indicators
-  set diversities lput language-diversity diversities
+
+
+
+; diversity linear trend (linear OLS)
+to-report diversity-linear-trend
+  ; needs to memorize diversity in time
+  let reg matrix:regress matrix:from-column-list (list diversities (seq 1 length diversities 1))
+  report item 1 (item 0 reg)
+end
+
+to-report abs-trend
+  report abs diversity-linear-trend
 end
 
 

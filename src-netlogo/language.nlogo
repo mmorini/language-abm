@@ -228,10 +228,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot count spoken-words"
 
 SWITCH
-12
-405
-141
-438
+15
+483
+144
+516
 output-print?
 output-print?
 1
@@ -326,10 +326,10 @@ wandering-type
 2
 
 SWITCH
-16
-370
-143
-403
+19
+448
+146
+481
 dump-voc?
 dump-voc?
 1
@@ -347,6 +347,21 @@ memory-impedance
 2
 1
 0.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+12
+338
+184
+371
+wandering-radius
+wandering-radius
+0
+200
+112
+1
 1
 NIL
 HORIZONTAL

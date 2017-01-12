@@ -27,13 +27,18 @@ globals [
   ; interaction radius
   speaking-radius
 
-
+  ; geography : coordinates of centers
   geo-center-coordinates
+
+  ; geography : wandering radius
+  ;wandering-radius
 
   ;;;
   ;; indicators
   
   diversities
+  inteligs
+  smoothing-window-size
 
 
   ; headless

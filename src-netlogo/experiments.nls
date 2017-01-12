@@ -4,7 +4,7 @@
 ;  experiments
 
 
-to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp time-steps runid ]
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp wandering-r time-steps runid ]
   
   ;
   set geo-setup-type "uniform"
@@ -23,6 +23,7 @@ to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp
   set #-random-mutations #-mutations ; \in [0,0.5]
   set understanding-threshold understanding
   set memory-impedance mem-imp ; 0.01
+  if wandering-r > 0 [set wandering-type "areas" set wandering-radius wandering-r]
   
   set experiment-id runid
   

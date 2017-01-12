@@ -3,7 +3,7 @@ import java.util.Date
 
 import Model._
 
-//semanticSize  populationSize  initVariability  mutationRate  understandingThreshold
+//semanticSize  populationSize  initVariability  mutationRate  understandingThreshold wanderingRadius
 val exploration = ExplorationTask(
   (((semanticSize is 20.0) x
   (populationSize is 50.0) x
@@ -11,7 +11,8 @@ val exploration = ExplorationTask(
   (mutationRate is 0.3) x
   (understandingThreshold is 0.005) x
   //(understandingThreshold in (0.005 to 0.205 by 0.05))x
-  (memoryImpedance in (0.1 to 2.0 by 0.1))
+  (memoryImpedance in (0.1 to 2.0 by 0.1))x
+  (wanderingRadius is 0.0)
   ) withIndex id )
   x (replication in UniformDistribution[Int]() take 1)
   /*((LHS(
