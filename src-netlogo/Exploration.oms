@@ -9,10 +9,11 @@ val exploration = ExplorationTask(
   (populationSize is 50.0) x
   (initVariability is 0.1) x
   (mutationRate is 0.3) x
-  (understandingThreshold is 0.1) x
-  //(understandingThreshold in (0.05 to 0.15 by 0.05))x
+  //(understandingThreshold is 0.05) x
+  (understandingThreshold in (0.05 to 0.15 by 0.05))x
+  //(memoryImpedance is 1.0)x
   (memoryImpedance in (0.1 to 2.0 by 0.2))x
-  // (wanderingRadius in (50.0 to 175.0 by 25.0)) x
+  //(wanderingRadius in (50.0 to 175.0 by 25.0))
   (wanderingRadius is 0.0)
   ) withIndex id )
   x (replication in UniformDistribution[Int]() take 50)
@@ -30,9 +31,9 @@ val exploration = ExplorationTask(
   //x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv" )
   //x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv" )
 )
-val purpose = "test"
+//val purpose = "test"
 //val purpose = "grid_uniform"
-//val purpose = "memory_local"
+val purpose = "memory_local"
 //val purpose = "radius_local"
 
 
@@ -44,7 +45,7 @@ val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((
 //val copyInitHook = CopyFileHook(initFile,workDirectory / "res/exploration/networks/${id}_initial.csv")
 //val copyFinalHook = CopyFileHook(finalFile,workDirectory / "res/exploration/networks/${id}_final.csv")
 
-val local = LocalEnvironment(50)
+val local = LocalEnvironment(25)
 //val grid = DIRACEnvironment("vo.complex-systems.eu")
 
 //exploration -< (model on grid by 300 hook indics_hook)
