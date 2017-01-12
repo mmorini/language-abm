@@ -14,7 +14,7 @@ val exploration = ExplorationTask(
   (memoryImpedance in (0.1 to 2.0 by 0.1))x
   (wanderingRadius is 0.0)
   ) withIndex id )
-  x (replication in UniformDistribution[Int]() take 1)
+  x (replication in UniformDistribution[Int]() take 200)
   /*((LHS(
     1,
     semanticSize in Range(10.0,100.0),
