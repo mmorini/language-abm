@@ -360,7 +360,7 @@ wandering-radius
 wandering-radius
 0
 200
-112
+168
 1
 1
 NIL
