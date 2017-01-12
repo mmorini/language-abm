@@ -6,7 +6,8 @@ library(ggplot2)
 setwd(paste0(Sys.getenv('CS_HOME'),'/LanguageEvolution/language-abm/src-netlogo'))
 
 #res <- as.tbl(read.csv('20160706_gridrefined/2016_07_06_23_16_09_grid_refined_all.csv'))
-res <- as.tbl(read.csv('res/exploration/2017_01_04_10_37_51_memory_local.csv'))
+#res <- as.tbl(read.csv('res/exploration/2017_01_04_10_37_51_memory_local.csv'))
+res <- as.tbl(read.csv('res/exploration/2017_01_12_11_13_48_radius_local.csv'))
 
 sres = res %>% group_by(id) %>% summarise(
   diversityTrendSd=sd(diversityTrend),diversityTrend=mean(diversityTrend),
@@ -15,7 +16,9 @@ sres = res %>% group_by(id) %>% summarise(
   languageSizeSd=sd(languageSize),languageSize=mean(languageSize),
   initVariability=mean(initVariability),mutationRate=mean(mutationRate),populationSize=mean(populationSize),
   semanticSize=mean(semanticSize),understandingThreshold=mean(understandingThreshold),
-  memoryImpedance=mean(memoryImpedance)
+  memoryImpedance=mean(memoryImpedance),wanderingRadius=mean(wanderingRadius),
+  smoothedDiversitySd=sd(smoothedDiversity),smoothedDiversity=mean(smoothedDiversity),
+  smoothedIntelligibilitySd=sd(smoothedIntelligibility),smoothedIntelligibility=mean(smoothedIntelligibility)
  )
 
 indics = c("diversityTrend","intellibility","languageDiversity","languageSize")
@@ -29,6 +32,6 @@ multiplot(plotlist=plotlist,cols=2)
 
 
 ##
-g=ggplot(sres,aes(x=memoryImpedance,y=languageSize,colour=understandingThreshold,group=understandingThreshold))
-g+geom_point()+geom_line()#+geom_errorbar(aes(ymin=languageDiversity-languageDiversitySd,ymax=languageDiversity+languageDiversitySd))
+g=ggplot(sres,aes(x=wanderingRadius,y=smoothedIntelligibility,colour=understandingThreshold,group=understandingThreshold))
+g+geom_point()+geom_line()+geom_errorbar(aes(ymin=smoothedIntelligibility-smoothedIntelligibilitySd,ymax=smoothedIntelligibility+smoothedIntelligibilitySd))
 
