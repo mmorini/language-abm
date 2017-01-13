@@ -45,6 +45,10 @@ globals [
   headless?
 
  experiment-id
+ 
+ randomseed
+ 
+ max-ticks
 ]
 
 

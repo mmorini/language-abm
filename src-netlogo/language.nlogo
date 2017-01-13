@@ -138,10 +138,10 @@ HORIZONTAL
 BUTTON
 324
 185
-391
+390
 218
-NIL
 go
+if ticks > max-ticks [stop]\ngo
 T
 1
 T
@@ -163,7 +163,7 @@ NIL
 0.0
 10.0
 0.0
-1.0
+1.0E-4
 true
 false
 "" ""
@@ -179,7 +179,7 @@ initial-voc-variability
 initial-voc-variability
 0
 1
-0.1
+0
 0.01
 1
 NIL
@@ -291,7 +291,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.01
+0.05
 0.005
 1
 NIL
@@ -323,7 +323,7 @@ CHOOSER
 wandering-type
 wandering-type
 "random" "memory" "areas"
-2
+0
 
 SWITCH
 19
@@ -332,7 +332,7 @@ SWITCH
 481
 dump-voc?
 dump-voc?
-1
+0
 1
 -1000
 
@@ -360,11 +360,28 @@ wandering-radius
 wandering-radius
 0
 200
-168
+0
 1
 1
 NIL
 HORIZONTAL
+
+BUTTON
+1188
+616
+1338
+649
+dump final network
+dump-voc-network (word \"_final\" ticks)
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -713,6 +730,98 @@ NetLogo 5.1.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <final>dump-voc-network (word "_final" ticks)</final>
+    <timeLimit steps="1000"/>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="memory-impedance">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wandering-radius">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-voc-variability">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="population-size">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wandering-type">
+      <value value="&quot;random&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="#-random-mutations">
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="output-print?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="geo-setup-type">
+      <value value="&quot;uniform&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="understanding-threshold">
+      <value value="0.05"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="semantic-size">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dump-voc?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lang-setup-type">
+      <value value="&quot;random&quot;"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="grid_mu_theta" repetitions="64" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <final>dump-voc-network (word "_final" ticks)</final>
+    <timeLimit steps="1000"/>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="memory-impedance">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wandering-radius">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-voc-variability">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="population-size">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wandering-type">
+      <value value="&quot;random&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="#-random-mutations">
+      <value value="0.1"/>
+      <value value="0.2"/>
+      <value value="0.3"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="output-print?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="geo-setup-type">
+      <value value="&quot;uniform&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="understanding-threshold">
+      <value value="0.05"/>
+      <value value="0.1"/>
+      <value value="0.15"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="semantic-size">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="dump-voc?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lang-setup-type">
+      <value value="&quot;random&quot;"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default

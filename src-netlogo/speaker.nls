@@ -159,7 +159,9 @@ to new-speaker
   ;
   setxy random-xcor random-ycor
   
-  set vocabulary initial-vocabulary
+  set happy? false
+  
+  set geo-center one-of geo-center-coordinates
   
   ;pen-down
   

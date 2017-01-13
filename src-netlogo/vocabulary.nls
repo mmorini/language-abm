@@ -76,16 +76,16 @@ end
 ;;
 ; random initial voc
 to-report initial-vocabulary
-;  let res []
+  let res []
 ;  ; for each semantics, slight chance to deviate from base word
-;  foreach semantics [
-;    let wdev deviated-word ?
-;    set res lput wdev res
-;    update-semantic-mapping wdev
-;  ]
-;  
-  ;report to-agentset res
-  let res semantics
+  foreach semantics [
+    let wdev ?
+    if initial-voc-variability > 0 [
+      set wdev deviated-word ?
+      update-semantic-mapping wdev
+    ]
+      set res lput wdev res   
+  ]
   
   report res
 end
@@ -121,10 +121,10 @@ to-report deviated-word [w]
   if random-float 1 < initial-voc-variability / length semantics [
     let syl-list [word-syllables] of w let sem [semantic] of w
     set syl-list replace-item random (length syl-list) syl-list one-of syllables
-    if sem = nobody [inspect w let x user-yes-or-no? ""]
+    ;if sem = nobody [inspect w let x user-yes-or-no? ""]
     set res get-spoken-word syl-list sem
     
-    if output-print? [output-print (word "deviation : " [word-text] of w " -> " [word-text] of res)]
+    ;if output-print? [output-print (word "deviation : " [word-text] of w " -> " [word-text] of res)]
     
     update-semantic-mapping res
   ]

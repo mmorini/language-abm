@@ -55,7 +55,7 @@ to-report language-diversity
     set res res + word-distance w1 w2
   ]
   
-  report res
+  report res / (count speakers * length semantics)
 end
 
 
@@ -104,13 +104,13 @@ end
 
 
 ;;
-;
+; distance between vocabularies
 to-report vocabulary-distance [speaker1 speaker2]
   let res 0
   foreach semantics [
     set res res + word-distance (one-of (to-agentset [vocabulary] of speaker1) with [semantic = ?]) (one-of (to-agentset [vocabulary] of speaker2) with [semantic = ?]) ; dirty
   ]
-  report res
+  report res / (length semantics)
 end
 
 ;;
@@ -122,7 +122,7 @@ to-report overall-voc-distances
     let j (i + 1)
     repeat (length speaker-list - i - 1)[
       let s1 item i speaker-list let s2 item j speaker-list
-      set res lput (list [who] of s1 [who] of s2 vocabulary-distance s1 s2) res
+      set res lput (list [who] of s1 [who] of s2 (1 - (vocabulary-distance s1 s2))) res
       set j j + 1 
     ]
     set i i + 1 
@@ -133,7 +133,8 @@ end
 
 
 to dump-voc-network [suffix]
-  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/exploration/networks/" experiment-id suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
+  set experiment-id (word "theta" understanding-threshold "_mu" #-random-mutations "_seed" randomseed)
+  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/networks/" experiment-id suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist
