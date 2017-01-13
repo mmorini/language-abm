@@ -7,21 +7,23 @@ source(paste0(Sys.getenv("CN_HOME"),'/Models/Utils/R/plots.r'))
 setwd(paste0(Sys.getenv('CS_HOME'),'/LanguageEvolution/language-abm/src-netlogo'))
 resdirprefix = paste0(Sys.getenv('CS_HOME'),'/LanguageEvolution/language-abm/res-netlogo/')
 
-res <- as.tbl(read.csv('../res-netlogo/20160706_gridrefined/2016_07_06_23_16_09_grid_refined_all.csv'))
+#res <- as.tbl(read.csv('../res-netlogo/20160706_gridrefined/2016_07_06_23_16_09_grid_refined_all.csv'))
 #res <- as.tbl(read.csv('res/exploration/2017_01_04_10_37_51_memory_local.csv'))
 #res <- as.tbl(read.csv('res/exploration/2017_01_12_15_06_09_memory_local.csv'))
+res <- as.tbl(read.csv('res/exploration/2017_01_12_15_07_15_radius_local.csv'))
 
 
-sres = res %>% group_by(mutationRate,understandingThreshold) %>% summarise(
-  diversityTrendSd=sd(diversityTrend),diversityTrend=mean(diversityTrend),
-  intelligibilitySd=sd(intellibility),intelligibility=mean(intellibility),
-  languageDiversitySd=sd(languageDiversity),languageDiversity=mean(languageDiversity)/100,
-  languageSizeSd=sd(languageSize),languageSize=mean(languageSize),
-  initVariability=mean(initVariability),populationSize=mean(populationSize),
-  count=n()
-)
-
-res$id2 = as.character(res$understandingThreshold*10000 + res$mutationRate*100)
+# 
+# sres = res %>% group_by(mutationRate,understandingThreshold) %>% summarise(
+#   diversityTrendSd=sd(diversityTrend),diversityTrend=mean(diversityTrend),
+#   intelligibilitySd=sd(intellibility),intelligibility=mean(intellibility),
+#   languageDiversitySd=sd(languageDiversity),languageDiversity=mean(languageDiversity)/100,
+#   languageSizeSd=sd(languageSize),languageSize=mean(languageSize),
+#   initVariability=mean(initVariability),populationSize=mean(populationSize),
+#   count=n()
+# )
+# 
+# res$id2 = as.character(res$understandingThreshold*10000 + res$mutationRate*100)
 
 sres = res %>% group_by(id) %>% summarise(
   diversityTrendSd=sd(diversityTrend),diversityTrend=mean(diversityTrend),
@@ -58,11 +60,12 @@ multiplot(plotlist=plotlist,cols=1)
 ###
 # histograms
 res$id2 = as.character(res$id)
+res$smoothedDiversity=res$smoothedDiversity/100
 param_points = c("3","13","23")
 sample = res[res$id2%in%param_points,]
 
 plotlist = list()
-for(indic in  c("intellibility","languageDiversity")){
+for(indic in  c("smoothedIntelligibility","smoothedDiversity")){
   g=ggplot(sample)
   plotlist[[indic]]=g+geom_density(aes_string(x=indic,fill="id2",group="id2"),alpha=0.4)
 }
@@ -89,7 +92,22 @@ ggsave(file=paste0(resdir,'/memory-diversity.pdf'),width=10,height=7)
 
 
 
-##
-g=ggplot(sres,aes(x=wanderingRadius,y=medIntelligibility,colour=understandingThreshold,group=understandingThreshold))
-g+geom_point()+geom_line()#+geom_errorbar(aes(ymin=smoothedIntelligibility-smoothedIntelligibilitySd,ymax=smoothedIntelligibility+smoothedIntelligibilitySd))
+####
+##  Radius effect
+
+resdir = paste0(resdirprefix,'20170112_radius');dir.create(resdir)
+
+
+g=ggplot(sres,aes(x=wanderingRadius,y=smoothedIntelligibility,colour=understandingThreshold,group=understandingThreshold))
+g+geom_point()+geom_line()+geom_errorbar(aes(ymin=smoothedIntelligibility-smoothedIntelligibilitySd,ymax=smoothedIntelligibility+smoothedIntelligibilitySd))+
+  xlab(expression(r[0]))+ylab("C")+scale_colour_continuous(name=expression(theta))+ theme(axis.title = element_text(size = 22),legend.title = element_text(size = 22), axis.text.x = element_text(size = 15),   axis.text.y = element_text(size = 15))
+ggsave(file=paste0(resdir,'/radius-intelig.pdf'),width=10,height=7)
+
+
+g=ggplot(sres,aes(x=wanderingRadius,y=smoothedDiversity,colour=understandingThreshold,group=understandingThreshold))
+g+geom_point()+geom_line()+geom_errorbar(aes(ymin=smoothedDiversity-smoothedDiversitySd,ymax=smoothedDiversity+smoothedDiversitySd))+
+  xlab(expression(r[0]))+ylab("D")+scale_colour_continuous(name=expression(theta))+ theme(axis.title = element_text(size = 22),legend.title = element_text(size = 22), axis.text.x = element_text(size = 15),   axis.text.y = element_text(size = 15))
+ggsave(file=paste0(resdir,'/radius-diversity.pdf'),width=10,height=7)
+
+
 
