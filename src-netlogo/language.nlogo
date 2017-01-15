@@ -291,7 +291,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.05
+0.15
 0.005
 1
 NIL
