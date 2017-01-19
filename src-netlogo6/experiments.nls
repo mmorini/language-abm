@@ -1,0 +1,45 @@
+
+
+;;;
+;  experiments
+
+
+to setup-experiment [sem-size pop-size voc-var #-mutations understanding mem-imp wandering-r time-steps runid ]
+  
+  ;
+  set geo-setup-type "uniform"
+  set lang-setup-type "random"
+  set wandering-type "memory"
+  set output-print? false
+  ;set dump-voc? true
+  set dump-voc? false  
+
+  set total-time-steps time-steps
+  
+  ; args
+  set semantic-size floor sem-size ; > 0
+  set population-size floor pop-size ; > 0
+  set initial-voc-variability voc-var ; \in [0,1]
+  set #-random-mutations #-mutations ; \in [0,0.5]
+  set understanding-threshold understanding
+  set memory-impedance mem-imp ; 0.01
+  if wandering-r > 0 [set wandering-type "areas" set wandering-radius wandering-r]
+  
+  set experiment-id runid
+  
+  set headless? true
+  
+  setup
+  
+end
+
+
+to go-experiment
+  
+  repeat total-time-steps [
+    go 
+  ]
+  
+  if dump-voc? = true [dump-voc-network "_final" ]
+  
+end

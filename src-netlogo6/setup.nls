@@ -1,0 +1,127 @@
+
+;; setup
+
+
+to setup
+  
+  if headless? = 0 [ca]
+  
+  ; globals
+  setup-globals
+  
+  ; global language
+  setup-language
+  
+  ; setup geography
+  setup-geography
+  
+  ; speakers
+  setup-speakers
+  
+  ;if dump-voc? = true [dump-voc-network "_initial"]
+  
+  update-display
+  
+  reset-ticks
+  
+end
+
+
+
+to setup-globals
+  
+  ; word length in syllables
+  set word-size 3
+  
+  set sentence-max-length 5
+  set sentence-min-length 3
+  
+  set diversities []
+  set inteligs []
+  
+  set speaking-radius 1
+  
+  set smoothing-window-size 100
+  
+  ; set a random seed, to be reused for reproducibility if needed
+  ; if 0, random seed
+  ifelse randomseed = 0 [set randomseed random 200000 - 100000 random-seed randomseed][random-seed randomseed]
+  
+  set max-ticks 1000
+  
+end
+
+
+;;
+;  setup semantics and initial words
+to setup-language
+  
+  if lang-setup-type = "random" [
+    
+    let #-syllables 50 set syllables []
+    ; construct syllables
+    let v (list "a" "e" "i" "o" "u") let c (list "s" "b" "p" "g" "r")
+    while [length syllables < #-syllables] [
+      ; draw at random a consomn and a voyel
+       set syllables lput (word one-of c one-of v) syllables
+    ]
+    
+    ; construct semantics and corresponding words
+    set semantics []
+    while [length semantics < semantic-size] [
+      let w new-random-spoken-word
+      if not member? w semantics [set semantics lput w semantics]
+    ]
+    
+    ; random distance matrix between syllables
+    set syllable-distance-matrix matrix:make-constant length syllables length syllables 0
+    let i 0 let j 1 repeat (length syllables - 1) [set j i + 1 repeat (length syllables - i - 1) [matrix:set syllable-distance-matrix i j (random-float 1) set j j + 1] set i i + 1] 
+    
+    ; mapping initially contains semantics
+    set semantic-mapping table:make
+    foreach semantics [[s]-> update-semantic-mapping s]
+    
+  ]
+  
+  ; else : synthetic language parametrized from real one ?
+  
+  
+  
+  
+  
+  
+  
+end
+
+
+
+to setup-geography
+  
+  if geo-setup-type = "uniform" [] ; do nothing
+  
+  set geo-center-coordinates (list [0 0])
+  
+  if wandering-type = "areas" [
+     set geo-center-coordinates (list (list (max-pxcor / 2) (max-pycor / 2)) (list (min-pxcor / 2) (min-pycor / 2)))
+  ]
+  
+end
+
+
+;;
+; position and particular language
+to setup-speakers
+  
+  create-speakers population-size [
+     new-speaker
+  ]
+  
+  foreach to-list speakers [
+    [s]->
+    let deviated-voc initial-vocabulary
+    ask s [set vocabulary deviated-voc]
+  ]
+  
+  
+  
+end

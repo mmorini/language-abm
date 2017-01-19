@@ -1,0 +1,169 @@
+
+;; speakers
+;  exchange phrases to do words cross-over
+
+
+;;
+; move people in space
+;
+;  -> use drifted random walks
+;    - people have fixed home ; commute randomly according to a gravity law (density of houses)
+;    - Lévy-flight sort of random walk, short step after successful interaction, long step after failure
+to wander-speakers
+  if wandering-type = "random" [
+    ask speakers [lt random-float 60 - 30 fd 1]
+  ]
+  
+  if wandering-type = "memory" [
+    ask speakers [
+      ifelse happy? [
+        lt random-float 60 - 30 fd memory-impedance
+      ][
+        lt random-float 60 - 30 fd 1
+      ]
+    ]
+  ]
+  
+  if wandering-type = "areas" [
+    ask speakers [
+      let p patch first geo-center last geo-center let weight exp (- (distance p) / wandering-radius)
+      lt random-float 360 - 180
+      if random-float 1 > weight [set heading towards p]
+      ;set heading ((weight * heading) + ((1 - weight) * towards p))
+      fd 1
+    ]
+  ]
+  
+end
+
+
+;;
+; Conversations :
+;   - find pairs of encountering speakers
+;   - foreach pair, make conversation
+to make-conversations
+  ask speakers [set speaking? false]
+  
+  ask speakers [
+     let potential-interlocutors (other speakers with [not speaking?]) in-radius speaking-radius
+     if count potential-interlocutors > 0 [
+       set speaking? true
+       let interlocutor one-of potential-interlocutors
+       ask interlocutor [set speaking? true]
+       ; "domination game" :
+       ;   -draw semantic phrase ; grammar assumed similar
+       ;   - check on comprehensibility is done at sentence level
+       ;   - choose a word, transfer it form dominant to dominated
+       ;  
+       ;  |P(p1 dominates p2) = 0.5 + |d1-d2|
+       let dominating? true
+       ifelse influence-score > [influence-score] of interlocutor [
+         ; note : old rule was wrong, needed to add 1/2
+         if random-float 1 > (1 + (influence-score - [influence-score] of interlocutor)) / 2 [set dominating? false]
+       ][
+         if random-float 1 < (1 + ([influence-score] of interlocutor - influence-score)) / 2 [set dominating? false]
+       ]
+       
+       ; draw sentence
+       let sentence-length (random (sentence-max-length - sentence-min-length)) + sentence-min-length
+       let sem-sentence [] repeat sentence-length [set sem-sentence lput one-of semantics sem-sentence]
+       
+       ;output-print (word "conversation : " sem-sentence)
+       ;output-print ( understandable? happy? )
+
+       ifelse understandable? sem-sentence self interlocutor [
+        ;also keep track of last interaction (successful communication or not)
+         set happy? true
+         ; construct effective sentence ? no need, just get word that will change
+         let cross-index random sentence-length
+         ifelse dominating? [
+           let new one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+           let old one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+           if new = nobody [inspect interlocutor let x user-yes-or-no? "bug"]
+           ask interlocutor [update-vocabulary old new]
+         ][
+           let old one-of (to-agentset vocabulary) with [semantic = item cross-index sem-sentence]
+           let new one-of (to-agentset [vocabulary] of interlocutor) with [semantic = item cross-index sem-sentence]
+           if new = nobody [inspect self let x user-yes-or-no? "bug"] 
+           update-vocabulary old new
+         ]
+         
+       ][
+         set happy? false
+       ]
+       
+     ]
+  ] 
+  
+end
+
+
+to update-vocabulary [old new]
+  if length remove-duplicates map [[v]->[semantic] of v] vocabulary < semantic-size [
+    inspect old inspect new show old show new inspect self let x user-yes-or-no? "bug : user lost one semantic - before update"
+  ]
+  
+  
+  if old != new and output-print? [output-print (word "modif : " [word-text] of old " - " [word-text] of new)]
+  
+  if old != new [
+    ; TODO : sometimes old not in voc ? -> check voc creation
+    ifelse position old vocabulary != false [set vocabulary replace-item (position old vocabulary) vocabulary new][inspect self let x user-yes-or-no? "bug : no old"]
+  ]
+  if length remove-duplicates map [[v]->[semantic] of v] vocabulary < semantic-size [
+    inspect old inspect new show old show new inspect self let x user-yes-or-no? "bug : user lost one semantic"
+  ]
+end
+
+
+
+
+to-report understandable? [s speaker1 speaker2]
+  let s1 [] let s2 []
+  ; show (word speaker1 speaker2)
+  foreach s [
+    ; construct effective phrases ; dirty
+    [w]->
+    set s1 lput (one-of ((to-agentset [vocabulary] of speaker1) with [[semantic] of self = w])) s1
+    set s2 lput (one-of ((to-agentset [vocabulary] of speaker2) with [[semantic] of self = w])) s2
+  ]
+  ;output-write (word s1 != s2)
+  report (sentence-distance s1 s2) < understanding-threshold
+end
+
+
+;;
+;  compute individual-level indicators
+to update-speaker-vars
+  ask speakers [set speaker-diversity get-speaker-diversity]
+end
+
+
+to-report get-speaker-diversity
+  let res 0
+  ; voc assumed of fixed size
+  foreach vocabulary [[v]-> set res res + word-distance v [semantic] of v]
+  report res
+end
+
+
+
+to new-speaker
+  
+  ; random influence score
+  set influence-score random-float 1
+  
+  set shape "person" set color red
+  
+  set size 0.5 + influence-score
+  
+  ;
+  setxy random-xcor random-ycor
+  
+  set happy? false
+  
+  set geo-center one-of geo-center-coordinates
+  
+  ;pen-down
+  
+end

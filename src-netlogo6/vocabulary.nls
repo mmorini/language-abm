@@ -1,0 +1,195 @@
+
+;; vocabulary
+;  global lang procedure and spoken-words procedure
+
+
+
+
+to mutate-vocabulary
+  
+  ; random mutation
+  repeat (floor #-random-mutations) + 1 [
+    if random-float 1 < #-random-mutations [
+      let mutating-speaker one-of speakers
+      let to-mutate one-of [vocabulary] of mutating-speaker
+      ;if to-mutate = nobody [inspect mutating-speaker let x user-yes-or-no? "bug"]
+      let mutated mutated-word to-mutate
+      ask mutating-speaker [set vocabulary lput mutated remove to-mutate vocabulary]
+    ]
+  ]
+  
+  ; kill unused words
+  let effective-vocs []
+  ask speakers [set effective-vocs lput vocabulary effective-vocs] ; totally unefficent
+  let effectively-spoken concatenate effective-vocs
+  
+  ask spoken-words [
+    if not member? self effectively-spoken and not member? self semantics [
+      table:remove semantic-mapping (list [word-text] of self [word-text] of [semantic] of self) die
+    ]
+  ]
+  
+end
+
+
+
+;;
+;  random word
+to-report new-random-spoken-word
+  report get-spoken-word (list one-of syllables one-of syllables one-of syllables) nobody
+end
+
+
+;;
+; constructor
+to new-spoken-word
+  set hidden? true set word-text get-word-text
+end
+
+;;
+;  static constructor, used to construct words only one time
+;   (hardcore dirty way to mimic hashconsing)
+to-report get-spoken-word [syl-list sem]
+  let text get-text syl-list
+  let existing nobody
+  ifelse sem = nobody [
+     set existing one-of spoken-words with [word-text = text]
+  ][
+     set existing one-of spoken-words with [word-text = text and semantic = sem]
+  ]
+  if existing != nobody [report existing]
+  let res nobody
+  create-spoken-words 1 [
+    set word-syllables syl-list
+    ifelse sem = nobody [set semantic self][set semantic sem]
+    set res self
+    new-spoken-word
+  ]
+  
+  ;if res = nobody []
+  
+  report res
+end
+
+
+
+;;
+; random initial voc
+to-report initial-vocabulary
+  let res []
+;  ; for each semantics, slight chance to deviate from base word
+  foreach semantics [
+    [s] -> 
+    let wdev s
+    if initial-voc-variability > 0 [
+      set wdev deviated-word s
+      update-semantic-mapping wdev
+    ]
+      set res lput wdev res   
+  ]
+  
+  report res
+end
+
+
+;; deviate voc for each speaker
+to deviate-vocabularies
+  foreach to-list speakers [   
+    [s]->
+    let current-sp s 
+     foreach [vocabulary] of current-sp [
+       let orig s let wdev deviated-word orig
+       ask current-sp [set vocabulary replace-item (position orig vocabulary) vocabulary wdev]
+       
+     ] 
+  ]
+
+end
+
+
+
+;;
+; deviates slightly a word
+;
+;  |P(deviation) = initial-voc-variability / length(semantic)
+;  such that intitial-voc-var = |E(total deviation)
+;
+; 
+to-report deviated-word [w]
+  ; any combination of syllables variation is possible : backpack pb, hard to solve
+  ;  let do it dirtily for now : one-syllable variation, random var
+  let res w
+  
+  if random-float 1 < initial-voc-variability / length semantics [
+    let syl-list [word-syllables] of w let sem [semantic] of w
+    set syl-list replace-item random (length syl-list) syl-list one-of syllables
+    ;if sem = nobody [inspect w let x user-yes-or-no? ""]
+    set res get-spoken-word syl-list sem
+    
+    ;if output-print? [output-print (word "deviation : " [word-text] of w " -> " [word-text] of res)]
+    
+    update-semantic-mapping res
+  ]
+  report res
+end
+
+;;
+;  mutate a word
+to-report mutated-word [w]  
+  let syl-list [word-syllables] of w let sem [semantic] of w
+  set syl-list replace-item random (length syl-list) syl-list one-of syllables
+  let res get-spoken-word syl-list sem
+ 
+  if output-print? [ output-print (word "mutation : " [word-text] of w " -> " [word-text] of res) ]
+ 
+  update-semantic-mapping res
+ 
+  report res
+  
+end
+
+
+;;
+; distance between two syllables
+to-report syllable-distance [s1 s2]
+  let i position s1 syllables let j position s2 syllables
+  report matrix:get syllable-distance-matrix i j
+end
+
+;;
+; distance between two words (spoken-words) OF SAME SIZE
+;  - normalized by word size -
+to-report word-distance [w1 w2]
+  let res 0 let i 0 let sl1 [word-syllables] of w1 let sl2 [word-syllables] of w2
+  foreach sl1 [[sl]-> set res res + syllable-distance sl item i sl2 set i i + 1]
+  ; output-print (word "ww " w1 " " w2 " - " res)
+  report res / word-size
+end
+
+;;
+; distance between two sentences OF SAME LENGTH
+;  - normalized by sentence size
+to-report sentence-distance [s1 s2]
+  let res 0 let i 0
+  foreach s1 [[w]-> set res res + word-distance w item i s2 set i i + 1]
+  ; output-print (word "ss " s1 " " s2 " -> " res)
+  report res / length s1
+end
+
+
+to update-semantic-mapping [w]
+  let k [word-text] of w let v [word-text] of [semantic] of w
+  table:put semantic-mapping  (list k v) v
+end
+
+
+to-report get-word-text
+  report get-text word-syllables
+end
+
+to-report get-text [l]
+  let res "" foreach l [[sl]-> set res (word sl res)] report res
+end
+
+
+

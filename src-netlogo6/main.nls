@@ -1,0 +1,109 @@
+
+;; main
+
+globals [
+
+  ;; list of semantics
+  ; semantic content with list of canonic words (that correspond to the actual semantic)
+  semantics
+
+  ; semantic mapping : table with (word , semantic) -> semantic [a word can have different semantics indeed]
+  semantic-mapping
+
+  ;; list of syllables
+  syllables
+
+  ; distance matrix between syllables
+  ;  M[syl_id1,syl_id2] = distance
+  syllable-distance-matrix
+
+  ; size of words in syllables
+  word-size
+
+  ; sentences
+  sentence-min-length
+  sentence-max-length
+
+  ; interaction radius
+  speaking-radius
+
+  ; geography : coordinates of centers
+  geo-center-coordinates
+
+  ; geography : wandering radius
+  ;wandering-radius
+
+  ;;;
+  ;; indicators
+  
+  diversities
+  inteligs
+  smoothing-window-size
+
+
+  ; headless
+  headless?
+
+ experiment-id
+ 
+ randomseed
+ 
+ max-ticks
+]
+
+
+
+breed[spoken-words spoken-word]
+
+spoken-words-own [
+  ; list of syllabes
+  word-syllables
+
+  ; actual text (for display)
+  word-text
+
+  ; semantic
+  semantic
+]
+
+
+breed [speakers speaker]
+
+speakers-own [
+  ; how the speaker will influence the other
+  influence-score
+
+  ; vocabulary as an list of spoken words
+  vocabulary
+
+  ; is the speaker currently speaking
+  speaking?
+  
+  ; was the last communication successful?
+  happy?
+  ; linguistic diversity of the guy
+  speaker-diversity
+
+  geo-center
+
+]
+
+to go
+  
+  ; move people
+  wander-speakers
+  
+  ; make conversations
+  ;  -> here "crossovers" occur (influence)
+  make-conversations
+  
+  ; mutate words randomly
+  mutate-vocabulary
+  
+  ; update display
+  update-display
+  update-indicators
+  
+  tick
+  
+end

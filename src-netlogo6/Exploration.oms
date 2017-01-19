@@ -1,0 +1,52 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+
+import Model._
+
+//semanticSize  populationSize  initVariability  mutationRate  understandingThreshold wanderingRadius
+val exploration = ExplorationTask(
+  (((semanticSize is 20.0) x
+  (populationSize is 50.0) x
+  (initVariability is 0.1) x
+  (mutationRate is 0.3) x
+  //(understandingThreshold is 0.05) x
+  (understandingThreshold in (0.1 to 0.21 by 0.05))x
+  (memoryImpedance is 1.0)x
+  //(memoryImpedance in (0.05 to 0.5 by 0.05))x
+  //(wanderingRadius is 0.0)
+  (wanderingRadius in (25.0 to 250.0 by 25.0))
+  ) withIndex id )
+  x (replication in UniformDistribution[Int]() take 300)
+  /*((LHS(
+    1,
+    semanticSize in Range(10.0,100.0),
+    populationSize in Range(10.0,100.0),
+    initVariability in Range(0.0,0.5),
+    mutationRate in Range(0.0,0.1),
+    understandingThreshold in Range(0.0,10.0),
+    memoryImpedance in Range(0.0,2.0)
+  )
+  x (replication in UniformDistribution[Int]() take 50)
+  ) withIndex id)*/
+  //x (initFile is workDirectory / "res" / "exploration" / "networks" / "${id}_initial.csv" )
+  //x (finalFile is workDirectory / "res" / "exploration" / "networks" / "${id}_final.csv" )
+)
+//val purpose = "test"
+//val purpose = "grid_uniform"
+//val purpose = "memory_local"
+val purpose = "radius_local"
+
+
+val eval = exploration -< model
+
+val indics_hook = AppendToCSVFileHook(workDirectory / "res" / "exploration" / ((new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")).format(new Date()))+"_"+purpose+".csv")
+
+
+//val copyInitHook = CopyFileHook(initFile,workDirectory / "res/exploration/networks/${id}_initial.csv")
+//val copyFinalHook = CopyFileHook(finalFile,workDirectory / "res/exploration/networks/${id}_final.csv")
+
+val local = LocalEnvironment(25)
+//val grid = DIRACEnvironment("vo.complex-systems.eu")
+
+//exploration -< (model on grid by 300 hook indics_hook)
+exploration -< (model on local hook indics_hook)
