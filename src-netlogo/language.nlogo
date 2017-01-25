@@ -114,7 +114,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.3
+0.05
 0.01
 1
 NIL
@@ -291,7 +291,7 @@ understanding-threshold
 understanding-threshold
 0
 1
-0.15
+0.3
 0.005
 1
 NIL
@@ -308,12 +308,12 @@ NIL
 0.0
 10.0
 0.0
-10.0
+1.0
 true
 false
 "" ""
 PENS
-"default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true]"
+"default" 1.0 0 -16777216 true "" "plot count speakers with [happy? = true] / count speakers"
 
 CHOOSER
 8
@@ -382,6 +382,21 @@ NIL
 NIL
 NIL
 1
+
+SLIDER
+155
+86
+327
+119
+max-ticks
+max-ticks
+0
+100000
+100000
+100
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

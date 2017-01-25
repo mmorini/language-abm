@@ -1,4 +1,4 @@
-extensions[matrix table]
+extensions[matrix table nw]
 
 
 __includes[
@@ -265,7 +265,7 @@ MONITOR
 731
 710
 min sem level
-min [length remove-duplicates map [[semantic] of ?] vocabulary] of speakers
+min [length remove-duplicates map [[w]->[semantic] of w] vocabulary] of speakers
 17
 1
 11

@@ -47,7 +47,7 @@ to setup-globals
   ; if 0, random seed
   ifelse randomseed = 0 [set randomseed random 200000 - 100000 random-seed randomseed][random-seed randomseed]
   
-  set max-ticks 1000
+  ;set max-ticks 1000
   
 end
 
