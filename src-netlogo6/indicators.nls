@@ -11,6 +11,12 @@
 to update-indicators
   set diversities lput language-diversity diversities
   set inteligs lput intelligibility-rate inteligs
+  
+  if plot-modularity? and ticks mod 100 = 1 [
+    ;set current-modularity max-network-modularity
+    update-speaker-network-weights
+    set current-modularity network-modularities seq 0.5 0.9 0.1
+  ]
 end
 
 
@@ -131,7 +137,7 @@ to-report overall-voc-distances [with-links? distance?]
       let s1 item i speaker-list let s2 item j speaker-list
       let d vocabulary-distance s1 s2 let w 0
       ifelse distance? [ set w d] [
-        set w (1 / ((d ^ 2)+ 1)) ;  what proximity when distance is 0 ? : 1 / 1 + d ^ 2
+        set w (1 / ((d ^ 2)+ 1)) ;  what proximity when distance is 0 ? : 1 / 1 + d ^ 2 ; or 1 / (max(d;dmin))2
       ]
       set res lput (list [who] of s1 [who] of s2 w) res
       if with-links? [ask s1 [create-link-with s2 [set link-weight w]]]
@@ -179,15 +185,23 @@ to-report network-modularity [weight-threshold]
 end
 
 
-to-report max-network-modularity
-  ; max of thresholded mod ?
-  update-speaker-network-weights
+
+
+
+to-report network-modularities [weights]
   let mods []
-  foreach seq 0.5 0.99 0.01 [
+  foreach weights [
     [w]->
      set mods lput network-modularity w mods
   ]
-  report max mods
+  report mods
+end
+
+
+to-report max-network-modularity
+  ; max of thresholded mod ?
+  update-speaker-network-weights
+  report max network-modularities seq 0.5 0.99 0.01
 end
 
 
@@ -202,7 +216,8 @@ end
 to dump-voc-network [suffix]
   set experiment-id (word "theta" understanding-threshold "_mu" #-random-mutations "_seed" randomseed)
   ;pathdir:create (word "res/networks/" experiment-id)
-  lists-csv-export (overall-voc-distances false weight-as-distances?) (list "a1" "a2" "weight") ";" (word "res/networks/" experiment-id "_" suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
+  let varname "weight" if weight-as-distances? [set varname "distance"]
+  lists-csv-export (overall-voc-distances false weight-as-distances?) (list "a1" "a2" varname) " " (word "res/networks/" experiment-id "_" suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist

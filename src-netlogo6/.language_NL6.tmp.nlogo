@@ -52,6 +52,17 @@ GRAPHICS-WINDOW
 ticks
 30.0
 
+SWITCH
+0
+0
+0
+0
+NIL
+NIL
+1
+1
+-1000
+
 CHOOSER
 7
 13
@@ -128,7 +139,7 @@ population-size
 population-size
 0
 1000
-100.0
+50.0
 1
 1
 NIL
@@ -443,6 +454,39 @@ weight-as-distances?
 0
 1
 -1000
+
+SWITCH
+154
+486
+315
+519
+plot-modularity?
+plot-modularity?
+1
+1
+-1000
+
+PLOT
+250
+285
+450
+435
+modularity
+NIL
+NIL
+0.0
+10.0
+0.0
+0.01
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot item 0 current-modularity"
+"pen-1" 1.0 0 -7500403 true "" "plot item 1 current-modularity"
+"pen-2" 1.0 0 -2674135 true "" "plot item 2 current-modularity"
+"pen-3" 1.0 0 -955883 true "" "plot item 3 current-modularity"
+"pen-4" 1.0 0 -14439633 true "" "plot item 4 current-modularity"
 
 @#$#@#$#@
 ## WHAT IS IT?

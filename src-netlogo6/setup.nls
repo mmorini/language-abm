@@ -43,6 +43,7 @@ to setup-globals
   set speaking-radius 1
   
   set smoothing-window-size 100
+  set current-modularity [0 0 0 0 0]
   
   ; set a random seed, to be reused for reproducibility if needed
   ; if 0, random seed

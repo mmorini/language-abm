@@ -88,10 +88,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-324
-147
-390
-180
+376
+64
+442
+97
 NIL
 setup
 NIL
@@ -113,7 +113,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.3
+0.03
 0.01
 1
 NIL
@@ -128,17 +128,17 @@ population-size
 population-size
 0
 1000
-100.0
+50.0
 1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-324
-185
-390
-218
+376
+102
+442
+135
 go
 if ticks > max-ticks [stop]\ngo
 T
@@ -331,7 +331,7 @@ SWITCH
 481
 dump-voc?
 dump-voc?
-0
+1
 1
 -1000
 
@@ -344,7 +344,7 @@ memory-impedance
 memory-impedance
 0
 2
-1.0
+0.1
 0.1
 1
 NIL
@@ -443,6 +443,49 @@ weight-as-distances?
 0
 1
 -1000
+
+SWITCH
+154
+486
+315
+519
+plot-modularity?
+plot-modularity?
+1
+1
+-1000
+
+PLOT
+250
+285
+450
+435
+modularity
+NIL
+NIL
+0.0
+10.0
+0.0
+0.01
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot item 0 current-modularity"
+"pen-1" 1.0 0 -7500403 true "" "plot item 1 current-modularity"
+"pen-2" 1.0 0 -2674135 true "" "plot item 2 current-modularity"
+"pen-3" 1.0 0 -955883 true "" "plot item 3 current-modularity"
+"pen-4" 1.0 0 -14439633 true "" "plot item 4 current-modularity"
+
+CHOOSER
+149
+91
+329
+136
+understanding-threshold-type
+understanding-threshold-type
+"fixed" "random-gaussian"
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
