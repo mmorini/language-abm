@@ -88,7 +88,17 @@ speakers-own [
 
 ]
 
+
+links-own [
+  link-weight 
+]
+
+
+
 to go
+  
+  ; export network depending on tick
+  if ticks mod 5000 = 0 and ticks > 0 [dump-voc-network ticks stop]
   
   ; move people
   wander-speakers

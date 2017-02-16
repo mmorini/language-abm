@@ -123,7 +123,7 @@ to-report overall-voc-distances
     let j (i + 1)
     repeat (length speaker-list - i - 1)[
       let s1 item i speaker-list let s2 item j speaker-list
-      set res lput (list [who] of s1 [who] of s2 (1 / ((vocabulary-distance s1 s2)^ 2))) res
+      set res lput (list [who] of s1 [who] of s2 (1 / ((vocabulary-distance s1 s2)^ 2 + 0.00001))) res
       set j j + 1 
     ]
     set i i + 1 
@@ -135,7 +135,8 @@ end
 
 to dump-voc-network [suffix]
   set experiment-id (word "theta" understanding-threshold "_mu" #-random-mutations "_seed" randomseed)
-  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") " " (word "res/networks/" experiment-id suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
+  pathdir:create (word "res/networks/" experiment-id)
+  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") " " (word "res/networks/" experiment-id "/" suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist

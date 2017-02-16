@@ -119,14 +119,22 @@ end
 
 ;;
 ; report adjacency list with (agent1id,agent2id,distance)
-to-report overall-voc-distances
+;  if with-links? shall create nw in the fly during computation
+;  if distance?, distance measure and not proximity is reported
+to-report overall-voc-distances [with-links? distance?]
+  if with-links? [ask links [die]]
   let res []
   let speaker-list to-list speakers
   let i 0 repeat (length speaker-list - 1)[
     let j (i + 1)
     repeat (length speaker-list - i - 1)[
       let s1 item i speaker-list let s2 item j speaker-list
-      set res lput (list [who] of s1 [who] of s2 (1 - (vocabulary-distance s1 s2))) res
+      let d vocabulary-distance s1 s2 let w 0
+      ifelse distance? [ set w d] [
+        set w (1 / ((d ^ 2)+ 1)) ;  what proximity when distance is 0 ? : 1 / 1 + d ^ 2
+      ]
+      set res lput (list [who] of s1 [who] of s2 w) res
+      if with-links? [ask s1 [create-link-with s2 [set link-weight w]]]
       set j j + 1 
     ]
     set i i + 1 
@@ -135,10 +143,66 @@ to-report overall-voc-distances
 end
 
 
+;;
+;
+to update-speaker-network-weights
+  let speaker-list to-list speakers
+  let i 0 repeat (length speaker-list - 1)[
+    let j (i + 1)
+    repeat (length speaker-list - i - 1)[
+      let s1 item i speaker-list let s2 item j speaker-list
+      let w (1 / ((((vocabulary-distance s1 s2) + 1)^ 2)))
+      ask s1 [ask one-of my-links with [member? s2 both-ends] [set link-weight w set thickness link-weight / 10]]
+      set j j + 1
+    ]
+    set i i + 1 
+  ]
+end
+
+
+
+to-report network-modularity [weight-threshold]
+  ; Problem : non-weighted modularity : do thresholded modularity ?
+  ask links with [link-weight < weight-threshold] [set hidden? true]
+  nw:set-context speakers (links with [link-weight > weight-threshold])
+  ; get connex components ; connect them with minimal random link ? ... cuccina...
+  let clusters nw:weak-component-clusters
+  let communities []
+  foreach clusters [
+    [c] ->
+    if count c > 1 [
+      nw:set-context speakers with [member? self c] links with [member? end1 c and member? end2 c and link-weight > weight-threshold]
+      foreach nw:louvain-communities [[com] -> set communities lput com communities]
+    ]
+  ]
+  report nw:modularity communities
+end
+
+
+to-report max-network-modularity
+  ; max of thresholded mod ?
+  update-speaker-network-weights
+  let mods []
+  foreach seq 0.5 0.99 0.01 [
+    [w]->
+     set mods lput network-modularity w mods
+  ]
+  report max mods
+end
+
+
+;;
+; implement weighted modularity
+to-report network-weighted-modularity
+  
+end
+
+
 
 to dump-voc-network [suffix]
   set experiment-id (word "theta" understanding-threshold "_mu" #-random-mutations "_seed" randomseed)
-  lists-csv-export overall-voc-distances (list "a1" "a2" "weight") ";" (word "res/networks/" experiment-id suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
+  ;pathdir:create (word "res/networks/" experiment-id)
+  lists-csv-export (overall-voc-distances false weight-as-distances?) (list "a1" "a2" "weight") ";" (word "res/networks/" experiment-id "_" suffix ".csv");(word "res/vocabulary_nw_" date-and-time ".csv")
 end
 
 ;to measure-ind-dist

@@ -90,6 +90,9 @@ speakers-own [
 
 to go
   
+  ; export network depending on tick
+  if ticks mod 10000 = 0 and ticks > 0 [dump-voc-network ticks]
+  
   ; move people
   wander-speakers
   

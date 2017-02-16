@@ -1,5 +1,5 @@
 
-extensions[matrix table gradient]
+extensions[matrix table gradient pathdir]
 
 
 __includes[
@@ -114,7 +114,7 @@ SLIDER
 #-random-mutations
 0
 0.5
-0.05
+0.1
 0.01
 1
 NIL
@@ -141,7 +141,7 @@ BUTTON
 390
 218
 go
-if ticks > max-ticks [stop]\ngo
+if ticks > max-ticks [stop]\n;if ticks mod 10000 = 0 and ticks > 0 [dump-voc-network ticks] ; this should be in FUCKING GO !!!\n; NEVER PUT CODE INSIDE BUTTONS\ngo
 T
 1
 T
@@ -392,7 +392,7 @@ max-ticks
 max-ticks
 0
 100000
-100000
+51600
 100
 1
 NIL
